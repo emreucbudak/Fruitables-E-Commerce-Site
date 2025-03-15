@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Repositories.Interfaces;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services
 {
-    public class CartManager : ICartRepositories
+    public class CartManager : ICartService
     {
         private readonly IRepositoryManager _rp;
 
@@ -17,30 +18,30 @@ namespace Services.Services
             _rp = rp;
         }
 
-        public async Task AddCart(Cart cart)
+        public async Task AddCartFromService(Cart cart)
         {
             await _rp.ICartRepositories.AddCart(cart);
             _rp.Save();
+
         }
 
-        public async Task DeleteCart(Cart cart)
-        { 
+        public async Task DeleteCartFromService(Cart cart)
+        {
             await _rp.ICartRepositories.DeleteCart(cart);
             _rp.Save();
-
         }
 
-        public async Task<IEnumerable<Cart>> GetAllCarts(bool a)
+        public async Task<IEnumerable<Cart>> GetAllCarts(bool v)
         {
-            return await _rp.ICartRepositories.GetAllCarts(a);
+            return await _rp.ICartRepositories.GetAllCarts(v);
         }
 
-        public async Task<Cart> GetCartByID(int id)
+        public async Task<Cart> GetCartByIdFromService(int id, bool v)
         {
             return await _rp.ICartRepositories.GetCartByID(id);
         }
 
-        public async Task UpdateCart(Cart cart)
+        public async Task UpdateCartFromService(Cart cart)
         {
             await _rp.ICartRepositories.UpdateCart(cart);
             _rp.Save();
