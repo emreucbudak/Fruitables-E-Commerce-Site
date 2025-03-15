@@ -11,7 +11,7 @@ namespace Repositories.Interfaces
     {
         Task AddContact (Contact contact);
         Task UpdateContact (Contact contact);
-        Task DeleteContact (int id);
+        Task DeleteContact (Contact contact);
         Task<IEnumerable<Contact>> GetAllContacts (bool v);
         Task<Contact> GetContactById (int id,bool v);
     }

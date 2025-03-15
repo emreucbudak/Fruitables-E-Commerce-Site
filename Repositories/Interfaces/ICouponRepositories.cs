@@ -11,7 +11,7 @@ namespace Repositories.Interfaces
     {
         Task AddCoupon (Coupon coupon);
         Task UpdateCoupon (Coupon coupon);
-        Task DeleteCoupon (int couponId);
+        Task DeleteCoupon (Coupon coupon);
         Task<Coupon> GetCouponById (int couponId,bool v);
         Task<IEnumerable<Coupon>> GetAllCoupons (bool v);
     }
