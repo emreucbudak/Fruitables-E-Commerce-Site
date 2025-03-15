@@ -68,5 +68,9 @@ namespace Repositories.Repositories
         public IUserRepositories userRepositories => _userRepositories.Value;
 
         public IWeGivesRepositories weGivesRepositories => _wegsRepositories.Value;
+        public  void Save()
+        {
+            _context.SaveChanges();
+        }
     }
 }

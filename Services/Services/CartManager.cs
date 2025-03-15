@@ -20,11 +20,14 @@ namespace Services.Services
         public async Task AddCart(Cart cart)
         {
             await _rp.ICartRepositories.AddCart(cart);
+            _rp.Save();
         }
 
         public async Task DeleteCart(Cart cart)
         { 
             await _rp.ICartRepositories.DeleteCart(cart);
+            _rp.Save();
+
         }
 
         public async Task<IEnumerable<Cart>> GetAllCarts(bool a)
@@ -40,6 +43,7 @@ namespace Services.Services
         public async Task UpdateCart(Cart cart)
         {
             await _rp.ICartRepositories.UpdateCart(cart);
+            _rp.Save();
         }
     }
 }

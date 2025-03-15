@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface IContactRepository
+    public interface IContactService
     {
         Task AddContactFromService(Contact category);
-        Task DeleteCategoryFromService(Contact category);
-        Task<IEnumerable<Contact>> GetAllCategories(bool v);
-        Task<Contact> GetCategory(int id);
-        Task UpdateCategoryFromService(Contact category);
+        Task DeleteContactFromService(Contact category);
+        Task<IEnumerable<Contact>> GetAllContact(bool v);
+        Task<Contact> GetContact(int id);
+        Task UpdateContactFromService(Contact category);
     }
 }

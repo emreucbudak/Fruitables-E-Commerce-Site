@@ -11,8 +11,8 @@ namespace Services.Interfaces
     {
         Task AddCommentFromService(Comment comment);
         Task DeleteCommentFromService(Comment comment);
-        Task<IEnumerable<Comment>> GetAllComments();
+        Task<IEnumerable<Comment>> GetAllComments(bool v);
         Task UpdateCommentFromService(Comment comment);
-        Task<Comment> GetCommentById(int id);
+        Task<Comment> GetCommentById(int id,bool v);
     }
 }

@@ -22,6 +22,7 @@ namespace Services.Services
         public async Task AddBillsFromService(Bills bil)
         {
             await _rp.IBillsRepositories.AddBills(bil);
+            _rp.Save();
         }
 
         public async Task<IEnumerable<Bills>> GetAllBillsFromService(bool v)
@@ -42,6 +43,7 @@ namespace Services.Services
                 throw new BillsNotFoundExceptions(billsId);
             }
             await _rp.IBillsRepositories.DeleteBills(x);
+            _rp.Save();
             return x;
 
         }
@@ -64,6 +66,7 @@ namespace Services.Services
             x.PostCode = bills.PostCode;
             x.CompanyName = bills.CompanyName;
             await _rp.IBillsRepositories.UpdateBills(x);
+            _rp.Save();
             return x;
         }
     }
