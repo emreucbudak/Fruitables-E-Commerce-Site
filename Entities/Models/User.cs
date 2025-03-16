@@ -15,6 +15,8 @@ namespace Entities.Models
         public string Password { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Bills> Bills { get; set; }
+        public ICollection<Order> Order { get; set; }
+        public Cart Cart { get; set; }
         
     }
 }

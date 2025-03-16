@@ -31,7 +31,7 @@ namespace Repositories.Repositories
             _context = context;
             _billsRepositories = new Lazy<IBillsRepositories>(() => new BillsRepositories(_context));
             _cartsRepositories = new Lazy<ICartRepositories>(() => new CartRepository(_context));
-            _categoriesRepositories = new Lazy<ICategoryRepositories>(() => new CategoryManager(_context));
+            _categoriesRepositories = new Lazy<ICategoryRepositories>(() => new CategoryRepository(_context));
             _commentRepositories = new Lazy<ICommentRepositories>(() => new CommentRepository(_context));
             _contactRepository = new Lazy<IContactRepository>(() => new ContactRepository(_context));
             _couponRepositories = new Lazy<ICouponRepositories>(() => new CouponRepository(_context));

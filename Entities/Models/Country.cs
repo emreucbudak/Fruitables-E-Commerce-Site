@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class Coupon
+    public class Country
     {
         public int Id { get; set; }
-        public string Code { get; set; }
-        public int Discount { get; set; }
-        public int Quantity { get; set; }
-        public DateTime ExpDate { get; set; }
+        public string CountryName { get; set; }
+        public ICollection<City> Cities { get; set; }
     }
 }

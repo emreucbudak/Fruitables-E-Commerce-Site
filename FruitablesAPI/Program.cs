@@ -11,6 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureSql(builder.Configuration );
+builder.Services.ConfigureRepositoryItems();
+builder.Services.ConfigureServiceManager();
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceItems();
 
 
 

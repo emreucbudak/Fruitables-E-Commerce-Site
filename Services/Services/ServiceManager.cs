@@ -20,7 +20,7 @@ namespace Services.Services
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<IStatsService> _statsService;
         private readonly Lazy<IUserService> _userService;
-        private readonly Lazy<ITestimonialService> testimonialService;
+        private readonly Lazy<ITestimonialService> testimonialService; 
         private readonly Lazy<IWeGivesService> weGivesService;
 
         public ServiceManager(IRepositoryManager rp)

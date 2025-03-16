@@ -87,24 +87,41 @@ namespace FruitablesAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("Entities.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("Entities.Models.Category", b =>
@@ -199,12 +216,62 @@ namespace FruitablesAPI.Migrations
                     b.Property<int>("Discount")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ExpDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Entities.Models.OwnProduct", b =>
@@ -403,12 +470,31 @@ namespace FruitablesAPI.Migrations
             modelBuilder.Entity("Entities.Models.Cart", b =>
                 {
                     b.HasOne("Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
+                        .WithOne("Cart")
+                        .HasForeignKey("Entities.Models.Cart", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Models.CartItem", b =>
+                {
+                    b.HasOne("Entities.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Entities.Models.Comment", b =>
@@ -428,6 +514,36 @@ namespace FruitablesAPI.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany("Order")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderItem", b =>
+                {
+                    b.HasOne("Entities.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Entities.Models.OwnProduct", b =>
@@ -452,11 +568,21 @@ namespace FruitablesAPI.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
             modelBuilder.Entity("Entities.Models.Category", b =>
                 {
                     b.Navigation("OwnProducts");
 
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("Entities.Models.Products", b =>
@@ -468,7 +594,12 @@ namespace FruitablesAPI.Migrations
                 {
                     b.Navigation("Bills");
 
+                    b.Navigation("Cart")
+                        .IsRequired();
+
                     b.Navigation("Comments");
+
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

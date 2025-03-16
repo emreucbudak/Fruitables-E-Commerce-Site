@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class Coupon
+    public class CartItem
     {
         public int Id { get; set; }
-        public string Code { get; set; }
-        public int Discount { get; set; }
+        public int CartId { get; set; }
+        public Cart Cart { get; set; }
+
+        public int ProductId { get; set; }
+        public Products Product { get; set; }
+
         public int Quantity { get; set; }
-        public DateTime ExpDate { get; set; }
+        // Sepetteki eşyalar
     }
 }

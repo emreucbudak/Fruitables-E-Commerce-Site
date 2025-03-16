@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Repositories.Repositories
 {
-    public class CategoryManager : RepositoryBase<Category>, ICategoryRepositories
+    public class CategoryRepository : RepositoryBase<Category>, ICategoryRepositories
     {
-        public CategoryManager(ApplicationDbContext context) : base(context)
+        public CategoryRepository(ApplicationDbContext context) : base(context)
         {
         }
 
