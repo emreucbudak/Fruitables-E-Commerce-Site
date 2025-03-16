@@ -1,10 +1,12 @@
 using FruitablesAPI.Extensions;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using Repositories.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,6 +17,8 @@ builder.Services.ConfigureRepositoryItems();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceItems();
+builder.Services.ConfigureLoggerService();
+
 
 
 

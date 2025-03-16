@@ -27,6 +27,9 @@ namespace Services.Services
 
         public async Task DeleteCartFromService(Cart cart)
         {
+            var x = await _rp.ICartRepositories.GetCartByID(cart.ID);
+            if (x == null) { 
+            }
             await _rp.ICartRepositories.DeleteCart(cart);
             _rp.Save();
         }

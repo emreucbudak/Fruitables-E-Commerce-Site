@@ -57,6 +57,10 @@ namespace FruitablesAPI.Extensions
             services.AddScoped<IWeGivesService, WeGivesManager>();
 
         }
+        public static void ConfigureLoggerService(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<ILoggerService,LoggerManager>();
+        }
 
 
     }

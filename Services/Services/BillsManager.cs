@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using FruitablesAPI.Exceptions;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -13,10 +14,12 @@ namespace Services.Services
     public class BillsManager : IBillsService
     {
         private readonly IRepositoryManager _rp;
+        private readonly ILoggerService _lg;
 
-        public BillsManager(IRepositoryManager rp)
+        public BillsManager(IRepositoryManager rp,ILoggerService _log)
         {
             _rp = rp;
+            _lg = _log;
         }
 
         public async Task AddBillsFromService(Bills bil)
@@ -40,6 +43,7 @@ namespace Services.Services
             var x = await _rp.IBillsRepositories.GetBillsByID(billsId,false );
             if (x == null)
             {
+                _lg.LogError($"{billsId}'e sahip ürün silinemedi!");
                 throw new BillsNotFoundExceptions(billsId);
             }
             await _rp.IBillsRepositories.DeleteBills(x);
@@ -53,6 +57,7 @@ namespace Services.Services
             var x = await _rp.IBillsRepositories.GetBillsByID(bills.Id, false);
             if (x == null)
             {
+                _lg.LogError($"{bills.Id} was not found.");
                 throw new BillsNotFoundExceptions(bills.Id);
             }
             x.FirstName = bills.FirstName;

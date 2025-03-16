@@ -23,9 +23,9 @@ namespace Services.Services
         private readonly Lazy<ITestimonialService> testimonialService; 
         private readonly Lazy<IWeGivesService> weGivesService;
 
-        public ServiceManager(IRepositoryManager rp)
+        public ServiceManager(IRepositoryManager rp,ILoggerService _log)
         {
-            _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp));
+            _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp));
             _commentService = new Lazy<ICommentService>(() => new CommentService(rp));
             _contactService = new Lazy<IContactService>(() => new ContactManager(rp));
