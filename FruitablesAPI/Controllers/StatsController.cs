@@ -12,47 +12,47 @@ namespace FruitablesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class StatsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public StatsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/Stats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<Stats>>> GetStats()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Stats.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/Stats/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<Stats>> GetStats(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var stats = await _context.Stats.FindAsync(id);
 
-            if (bills == null)
+            if (stats == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return stats;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Stats/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutStats(int id, Stats stats)
         {
-            if (id != bills.Id)
+            if (id != stats.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(stats).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!StatsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Stats
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<Stats>> PostStats(Stats stats)
         {
-            _context.Bills.Add(bills);
+            _context.Stats.Add(stats);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetStats", new { id = stats.Id }, stats);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Stats/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteStats(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var stats = await _context.Stats.FindAsync(id);
+            if (stats == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.Stats.Remove(stats);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool StatsExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.Stats.Any(e => e.Id == id);
         }
     }
 }

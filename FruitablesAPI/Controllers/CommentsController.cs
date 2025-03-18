@@ -12,47 +12,47 @@ namespace FruitablesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public CommentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/Comments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Comments.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/Comments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<Comment>> GetComment(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
 
-            if (bills == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return comment;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutComment(int id, Comment comment)
         {
-            if (id != bills.Id)
+            if (id != comment.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(comment).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!CommentExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Comments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
-            _context.Bills.Add(bills);
+            _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Comments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteComment(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool CommentExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.Comments.Any(e => e.Id == id);
         }
     }
 }

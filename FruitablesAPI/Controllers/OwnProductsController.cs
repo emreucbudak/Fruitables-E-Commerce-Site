@@ -12,47 +12,47 @@ namespace FruitablesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class OwnProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public OwnProductsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/OwnProducts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<OwnProduct>>> GetOwnProducts()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.OwnProducts.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/OwnProducts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<OwnProduct>> GetOwnProduct(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var ownProduct = await _context.OwnProducts.FindAsync(id);
 
-            if (bills == null)
+            if (ownProduct == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return ownProduct;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/OwnProducts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutOwnProduct(int id, OwnProduct ownProduct)
         {
-            if (id != bills.Id)
+            if (id != ownProduct.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(ownProduct).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!OwnProductExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/OwnProducts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<OwnProduct>> PostOwnProduct(OwnProduct ownProduct)
         {
-            _context.Bills.Add(bills);
+            _context.OwnProducts.Add(ownProduct);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetOwnProduct", new { id = ownProduct.ID }, ownProduct);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/OwnProducts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteOwnProduct(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var ownProduct = await _context.OwnProducts.FindAsync(id);
+            if (ownProduct == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.OwnProducts.Remove(ownProduct);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool OwnProductExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.OwnProducts.Any(e => e.ID == id);
         }
     }
 }

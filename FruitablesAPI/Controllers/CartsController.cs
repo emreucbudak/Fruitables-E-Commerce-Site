@@ -12,47 +12,47 @@ namespace FruitablesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class CartsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public CartsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/Carts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Carts.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/Carts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<Cart>> GetCart(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var cart = await _context.Carts.FindAsync(id);
 
-            if (bills == null)
+            if (cart == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return cart;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Carts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutCart(int id, Cart cart)
         {
-            if (id != bills.Id)
+            if (id != cart.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(cart).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!CartExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Carts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
-            _context.Bills.Add(bills);
+            _context.Carts.Add(cart);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetCart", new { id = cart.ID }, cart);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Carts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteCart(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var cart = await _context.Carts.FindAsync(id);
+            if (cart == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.Carts.Remove(cart);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool CartExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.Carts.Any(e => e.ID == id);
         }
     }
 }

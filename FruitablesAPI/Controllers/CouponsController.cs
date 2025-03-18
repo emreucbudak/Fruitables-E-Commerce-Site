@@ -12,47 +12,47 @@ namespace FruitablesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class CouponsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public CouponsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/Coupons
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<Coupon>>> GetCoupons()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Coupons.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/Coupons/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<Coupon>> GetCoupon(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var coupon = await _context.Coupons.FindAsync(id);
 
-            if (bills == null)
+            if (coupon == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return coupon;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Coupons/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutCoupon(int id, Coupon coupon)
         {
-            if (id != bills.Id)
+            if (id != coupon.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(coupon).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!CouponExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Coupons
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<Coupon>> PostCoupon(Coupon coupon)
         {
-            _context.Bills.Add(bills);
+            _context.Coupons.Add(coupon);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetCoupon", new { id = coupon.Id }, coupon);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Coupons/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteCoupon(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var coupon = await _context.Coupons.FindAsync(id);
+            if (coupon == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.Coupons.Remove(coupon);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool CouponExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.Coupons.Any(e => e.Id == id);
         }
     }
 }

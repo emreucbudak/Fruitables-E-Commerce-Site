@@ -12,47 +12,47 @@ namespace FruitablesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class TestimonialsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public TestimonialsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/Testimonials
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<Testimonials>>> GetTestimonials()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Testimonials.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/Testimonials/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<Testimonials>> GetTestimonials(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var testimonials = await _context.Testimonials.FindAsync(id);
 
-            if (bills == null)
+            if (testimonials == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return testimonials;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Testimonials/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutTestimonials(int id, Testimonials testimonials)
         {
-            if (id != bills.Id)
+            if (id != testimonials.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(testimonials).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!TestimonialsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Testimonials
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<Testimonials>> PostTestimonials(Testimonials testimonials)
         {
-            _context.Bills.Add(bills);
+            _context.Testimonials.Add(testimonials);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetTestimonials", new { id = testimonials.Id }, testimonials);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Testimonials/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteTestimonials(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var testimonials = await _context.Testimonials.FindAsync(id);
+            if (testimonials == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.Testimonials.Remove(testimonials);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool TestimonialsExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.Testimonials.Any(e => e.Id == id);
         }
     }
 }
