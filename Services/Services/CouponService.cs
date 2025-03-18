@@ -27,10 +27,9 @@ namespace Services.Services
 
         public async Task DeleteCouponFromService(int cpn)
         {
-            var x = await _rp.ICouponRepositories.GetCouponById(cpn,false);
-            if (x == null) {
-                throw new CouponNotFoundExceptions(cpn);
-            }
+            var x = await GetCoupons(cpn, false);
+
+
             await _rp.ICouponRepositories.DeleteCoupon(x);
             _rp.Save();
         }
@@ -43,15 +42,17 @@ namespace Services.Services
 
         public async Task<Coupon> GetCoupons(int id, bool v)
         {
-            return await _rp.ICouponRepositories.GetCouponById(id, v);
+            var x =  await _rp.ICouponRepositories.GetCouponById(id, v);
+            if (x == null)
+            {
+                throw new CouponNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task UpdateCouponFromService(Coupon cpn)
         {
-            var x = await _rp.ICouponRepositories.GetCouponById(cpn.Id, false);
-            if (x == null) {
-                throw new CouponNotFoundExceptions(cpn.Id);
-            }
+            var x = await GetCoupons(cpn.Id , false);
             x.Quantity = cpn.Quantity;
             x.Discount = cpn.Discount;
             x.ExpDate = cpn.ExpDate;

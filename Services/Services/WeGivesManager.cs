@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -31,12 +32,18 @@ namespace Services.Services
 
         public async Task<WeGives> GetWeGives(int id, bool v)
         {
-            return await _rp.weGivesRepositories.GetWeGives(id, v);
+            var x =  await _rp.weGivesRepositories.GetWeGives(id, v);
+            if (x == null)
+            {
+                throw new WeGivesNotFoundExceptions(id);
+            }
+            return x;
+
         }
 
         public async Task RemoveWeGives(int weGives)
         {
-            var x = await _rp.weGivesRepositories.GetWeGives(weGives,false);
+            var x = await GetWeGives(weGives,false);
             await _rp.weGivesRepositories.RemoveWeGives(x);
             _rp.Save();
             
@@ -44,7 +51,7 @@ namespace Services.Services
 
         public async Task UpdateWeGives(WeGives wegs)
         {
-            var x = await _rp.weGivesRepositories.GetWeGives(wegs.Id, false);
+            var x = await GetWeGives(wegs.Id, false);
             x.Title = wegs.Title;
             x.Description = wegs.Description;
             x.ImgUrl = wegs.ImgUrl;

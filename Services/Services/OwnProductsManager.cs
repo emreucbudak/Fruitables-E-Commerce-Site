@@ -32,27 +32,26 @@ namespace Services.Services
 
         public async Task<OwnProduct> GetOwnProductById(int id)
         {
-            return await _rp.ownProducts.GetOwnProductById(id,false);
+            var x =  await _rp.ownProducts.GetOwnProductById(id,false);
+            if (x == null)
+            {
+                throw new OwnProductNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task RemoveOwnProductsFromService(int ownProduct)
         {
-            var x = await _rp.ownProducts.GetOwnProductById(ownProduct,false);
-            if (x == null)
-            {
-                throw new OwnProductNotFoundExceptions(ownProduct);
-            }
+            var x = await GetOwnProductById(ownProduct);
+
             await _rp.ownProducts.RemoveOwnProduct(x);
             _rp.Save();
         }
 
         public async Task UpdateOwnProductsFromService(OwnProduct ownProduct)
         {
-            var x = await _rp.ownProducts.GetOwnProductById(ownProduct.ID,false);
-            if ( x== null)
-            {
-                throw new OwnProductNotFoundExceptions(ownProduct.ID);
-            }
+            var x = await GetOwnProductById(ownProduct.ID);
+
             x.Description = ownProduct.Description;
             x.Name = ownProduct.Name;
             x.ImgUrl = ownProduct.ImgUrl;

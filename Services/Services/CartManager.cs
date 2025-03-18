@@ -28,10 +28,8 @@ namespace Services.Services
 
         public async Task DeleteCartFromService(int cart)
         {
-            var x = await _rp.ICartRepositories.GetCartByID(cart);
-            if (x == null) {
-                throw new CartNotFoundExceptions(cart);
-            }
+            var x = await GetCartByIdFromService(cart, false);
+ 
             await _rp.ICartRepositories.DeleteCart(x);
             _rp.Save();
         }
@@ -43,16 +41,14 @@ namespace Services.Services
 
         public async Task<Cart> GetCartByIdFromService(int id, bool v)
         {
-            return await _rp.ICartRepositories.GetCartByID(id);
+            var x =  await _rp.ICartRepositories.GetCartByID(id);
+            if ( x == null) { throw new CartNotFoundExceptions(id); }
+            return x;
         }
 
         public async Task UpdateCartFromService(Cart cart)
         {
-            var x = await _rp.ICartRepositories.GetCartByID(cart.ID);
-            if (x == null) {
-                throw new CartNotFoundExceptions(cart.ID);
-
-            }
+            var x = await GetCartByIdFromService(cart.ID, false);
             x.CartItems = cart.CartItems;
             x.User = cart.User;
             x.UserID = cart.UserID;

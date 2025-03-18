@@ -27,11 +27,7 @@ namespace Services.Services
 
         public async Task DeleteProductFromService(int prd)
         {
-            var x = await _productService.products.GetProductsById(prd,false);
-            if ( x == null)
-            {
-                throw new ProductsNotFoundExceptions(prd);
-            }
+            var x = await GetProductById(prd,false);
             await _productService.products.DeleteProduct(x);
             _productService.Save();
 
@@ -45,16 +41,18 @@ namespace Services.Services
 
         public async Task<Products> GetProductById(int id, bool v)
         {
-            return await _productService.products.GetProductsById(id, v);
+            var x =  await _productService.products.GetProductsById(id, v);
+            if ( x == null)
+            {
+                throw new ProductsNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task UpdateProductFromService(Products prd)
         {
-            var x = await _productService.products.GetProductsById(prd.ProductId, false);
-            if (x == null)
-            {
-                throw new ProductsNotFoundExceptions(prd.ProductId);
-            }
+            var x = await GetProductById(prd.ProductId, false);
+
             x.Price = prd.Price;
             x.Name = prd.Name;
             x.Description = prd.Description;

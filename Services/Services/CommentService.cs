@@ -27,10 +27,7 @@ namespace Services.Services
 
         public async Task DeleteCommentFromService(int comment)
         {
-            var x = await _rp.ICommentRepositories.GetCommentById(comment,false);
-            if (x == null) {
-                throw new CommentNotFoundExceptions(comment);
-            }
+            var x = await GetCommentById(comment, false);
             await _rp.ICommentRepositories.DeleteComment(x);
             _rp.Save();
 
@@ -43,15 +40,18 @@ namespace Services.Services
 
         public async Task<Comment> GetCommentById(int id, bool v)
         {
-            return await _rp.ICommentRepositories.GetCommentById(id,v);    
+            var x =  await _rp.ICommentRepositories.GetCommentById(id,v);
+            if (x == null)
+            {
+                throw new CommentNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task UpdateCommentFromService(Comment comment)
         {
-            var x = await _rp.ICommentRepositories.GetCommentById(comment.Id, false);
-            if (x == null) {
-                throw new CommentNotFoundExceptions(comment.Id);
-            }
+            var x = await GetCommentById(comment.Id,false);
+
             x.Text = comment.Text;
             x.Ratio = comment.Ratio;
             x.Date = comment.Date;

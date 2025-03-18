@@ -35,16 +35,17 @@ namespace Services.Services
 
         public async Task<Bills> GetBillsFromService(int billsId)
         {
-            return await _rp.IBillsRepositories.GetBillsByID(billsId,false);
-        }
-
-        public async Task<Bills> RemoveBillsFromService(int billsId)
-        {
-            var x = await _rp.IBillsRepositories.GetBillsByID(billsId,false );
+            var x =  await _rp.IBillsRepositories.GetBillsByID(billsId,false);
             if (x == null)
             {
                 throw new BillsNotFoundExceptions(billsId);
             }
+            return x;
+        }
+
+        public async Task<Bills> RemoveBillsFromService(int billsId)
+        {
+            var x = await GetBillsFromService(billsId);
             await _rp.IBillsRepositories.DeleteBills(x);
             _rp.Save();
             return x;
@@ -53,11 +54,8 @@ namespace Services.Services
 
         public async Task<Bills> UpdateBillsFromService(Bills bills)
         {
-            var x = await _rp.IBillsRepositories.GetBillsByID(bills.Id, false);
-            if (x == null)
-            {
-                throw new BillsNotFoundExceptions(bills.Id);
-            }
+            var x = await GetBillsFromService(bills.Id);
+
             x.FirstName = bills.FirstName;
             x.LastName = bills.LastName;
             x.Email = bills.Email;

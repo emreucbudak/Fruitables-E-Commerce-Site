@@ -27,11 +27,9 @@ namespace Services.Services
 
         public async Task DeleteContactFromService(int category)
         {
-            var x= await _contactService.IContactRepository.GetContactById(category,false);
-            if (x == null) {
-                throw new ContactNotFoundExceptions(category);
-            }
+            var x= await GetContact(category);
             await _contactService.IContactRepository.DeleteContact(x);
+            _contactService.Save();
         }
 
         public async Task<IEnumerable<Contact>> GetAllContact(bool v)
@@ -41,11 +39,20 @@ namespace Services.Services
 
         public async Task<Contact> GetContact(int id)
         {
-            return await _contactService.IContactRepository.GetContactById(id,false);
+            var x = await _contactService.IContactRepository.GetContactById(id,false);
+            if (x == null)
+            {
+                throw new ContactNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task UpdateContactFromService(Contact category)
         {
+            var x = await GetContact(category.Id);
+            x.Email = category.Email;
+            x.Name = category.Name;
+            x.Message = category.Message;
             await _contactService.IContactRepository.UpdateContact(category);
             _contactService.Save();
         }

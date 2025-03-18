@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -24,7 +25,8 @@ namespace Services.Services
 
         public async Task DeleteStats(int stats)
         {
-             var x = await _statsService.statsRepositories.GetStatsByID(stats,false);
+             var x = await GetStatsById(stats,false);
+
              await _statsService.statsRepositories.DeleteStats(x);
             _statsService.Save();
         }
@@ -36,12 +38,18 @@ namespace Services.Services
 
         public async Task<Stats> GetStatsById(int id, bool v)
         {
-            return await _statsService.statsRepositories.GetStatsByID(id, v);
+            var x =  await _statsService.statsRepositories.GetStatsByID(id, v);
+            if (x == null)
+            {
+                throw new StatsNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task UpdateStats(Stats stats)
         {
-            var x =  await _statsService.statsRepositories.GetStatsByID(stats.Id, false);
+            var x =  await GetStatsById(stats.Id, false);
+
             x.Title = stats.Title;
             x.ImgUrl = stats.ImgUrl;
             x.Count = stats.Count;

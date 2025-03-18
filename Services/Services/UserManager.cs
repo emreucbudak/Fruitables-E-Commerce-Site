@@ -21,10 +21,7 @@ namespace Services.Services
 
         public async Task DeleteUser(int user)
         {
-            var x = await _mng.userRepositories.GetUsers(user,false);
-            if (x == null) {
-                throw new UserNotFoundExceptions(user);
-            }
+            var x = await GetUserById(user);
             await _mng.userRepositories.DeleteUser(x);
             _mng.Save();
 
@@ -37,7 +34,12 @@ namespace Services.Services
 
         public async Task<User> GetUserById(int id)
         {
-            return await _mng.userRepositories.GetUsers(id,false);
+            var x =  await _mng.userRepositories.GetUsers(id,false);
+            if (x == null)
+            {
+                throw new UserNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task RegisterUser(User user)
@@ -48,11 +50,7 @@ namespace Services.Services
 
         public async Task UpdateUser(User user)
         {
-            var x = await _mng.userRepositories.GetUsers(user.UserID, false);
-            if (x == null)
-            {
-                throw new UserNotFoundExceptions(user.UserID);
-            }
+            var x = await GetUserById(user.UserID);
             x.Email = user.Email;
             x.Name = user.Name;
             x.Password = user.Password;

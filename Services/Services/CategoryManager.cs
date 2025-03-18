@@ -27,11 +27,7 @@ namespace Services.Services
 
         public async Task DeleteCategoryFromService(int category)
         {
-            var x= await _categoryService.ICategoryRepositories.GetCategoryById(category);
-            if (x == null)
-            {
-                throw new CategoryNotFoundExceptions(category);
-            }
+            var x = await GetCategoryById(category);
             await _categoryService.ICategoryRepositories.DeleteCategory(x);
             _categoryService.Save();
 
@@ -45,20 +41,21 @@ namespace Services.Services
 
         public async Task<Category> GetCategoryById(int id)
         {
-            return await _categoryService.ICategoryRepositories.GetCategoryById(id);
+            var x=  await _categoryService.ICategoryRepositories.GetCategoryById(id);
+            if (x == null)
+            {
+                throw new CategoryNotFoundExceptions(id);
+            }
+            return x;
         }
 
         public async Task UpdateCategoryFromService(Category category)
         {
-            var x = await _categoryService.ICategoryRepositories.GetCategoryById(category.CategoryID);
-            if(x == null)
-            {
-                throw new CategoryNotFoundExceptions(category.CategoryID);
-            }
+            var x = await GetCategoryById(category.CategoryID); 
             x.CategoryName = category.CategoryName;
             x.OwnProducts = category.OwnProducts;
             x.Products = category.Products;
-            await _categoryService.ICategoryRepositories.UpdateCategory(category);
+            await _categoryService.ICategoryRepositories.UpdateCategory(x);
             _categoryService.Save();
             
         }

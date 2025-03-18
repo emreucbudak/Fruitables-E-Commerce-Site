@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class BillsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public BillsController(ApplicationDbContext context)
+        public BillsController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,21 +26,17 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
         {
-            return await _context.Bills.ToListAsync();
+            var x =  await _context.BillsService.GetAllBillsFromService(false);
+            return Ok(x);
+
         }
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bills>> GetBills(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-
-            if (bills == null)
-            {
-                return NotFound();
-            }
-
-            return bills;
+            var x = await _context.BillsService.GetBillsFromService(id);
+            return Ok(x);
         }
 
         // PUT: api/Bills/5
