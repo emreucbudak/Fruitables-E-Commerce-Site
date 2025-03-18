@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class TestimonialsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public UsersController(ApplicationDbContext context)
+        public TestimonialsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Testimonials
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Testimonials>>> GetTestimonials()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Testimonials.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Testimonials/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Testimonials>> GetTestimonials(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var testimonials = await _context.Testimonials.FindAsync(id);
 
-            if (user == null)
+            if (testimonials == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return testimonials;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Testimonials/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutTestimonials(int id, Testimonials testimonials)
         {
-            if (id != user.UserID)
+            if (id != testimonials.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(testimonials).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!TestimonialsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Testimonials
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Testimonials>> PostTestimonials(Testimonials testimonials)
         {
-            _context.Users.Add(user);
+            _context.Testimonials.Add(testimonials);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserID }, user);
+            return CreatedAtAction("GetTestimonials", new { id = testimonials.Id }, testimonials);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Testimonials/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteTestimonials(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var testimonials = await _context.Testimonials.FindAsync(id);
+            if (testimonials == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Testimonials.Remove(testimonials);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool TestimonialsExists(int id)
         {
-            return _context.Users.Any(e => e.UserID == id);
+            return _context.Testimonials.Any(e => e.Id == id);
         }
     }
 }

@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OwnProductsController : ControllerBase
+    public class BillsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public OwnProductsController(ApplicationDbContext context)
+        public BillsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/OwnProducts
+        // GET: api/Bills
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OwnProduct>>> GetOwnProducts()
+        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
         {
-            return await _context.OwnProducts.ToListAsync();
+            return await _context.Bills.ToListAsync();
         }
 
-        // GET: api/OwnProducts/5
+        // GET: api/Bills/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OwnProduct>> GetOwnProduct(int id)
+        public async Task<ActionResult<Bills>> GetBills(int id)
         {
-            var ownProduct = await _context.OwnProducts.FindAsync(id);
+            var bills = await _context.Bills.FindAsync(id);
 
-            if (ownProduct == null)
+            if (bills == null)
             {
                 return NotFound();
             }
 
-            return ownProduct;
+            return bills;
         }
 
-        // PUT: api/OwnProducts/5
+        // PUT: api/Bills/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOwnProduct(int id, OwnProduct ownProduct)
+        public async Task<IActionResult> PutBills(int id, Bills bills)
         {
-            if (id != ownProduct.ID)
+            if (id != bills.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(ownProduct).State = EntityState.Modified;
+            _context.Entry(bills).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OwnProductExists(id))
+                if (!BillsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/OwnProducts
+        // POST: api/Bills
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<OwnProduct>> PostOwnProduct(OwnProduct ownProduct)
+        public async Task<ActionResult<Bills>> PostBills(Bills bills)
         {
-            _context.OwnProducts.Add(ownProduct);
+            _context.Bills.Add(bills);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOwnProduct", new { id = ownProduct.ID }, ownProduct);
+            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
         }
 
-        // DELETE: api/OwnProducts/5
+        // DELETE: api/Bills/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOwnProduct(int id)
+        public async Task<IActionResult> DeleteBills(int id)
         {
-            var ownProduct = await _context.OwnProducts.FindAsync(id);
-            if (ownProduct == null)
+            var bills = await _context.Bills.FindAsync(id);
+            if (bills == null)
             {
                 return NotFound();
             }
 
-            _context.OwnProducts.Remove(ownProduct);
+            _context.Bills.Remove(bills);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool OwnProductExists(int id)
+        private bool BillsExists(int id)
         {
-            return _context.OwnProducts.Any(e => e.ID == id);
+            return _context.Bills.Any(e => e.Id == id);
         }
     }
 }

@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CitiesController : ControllerBase
+    public class OrderItemsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public CitiesController(ApplicationDbContext context)
+        public OrderItemsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Cities
+        // GET: api/OrderItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<City>>> GetCities()
+        public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItems()
         {
-            return await _context.Cities.ToListAsync();
+            return await _context.OrderItems.ToListAsync();
         }
 
-        // GET: api/Cities/5
+        // GET: api/OrderItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<City>> GetCity(int id)
+        public async Task<ActionResult<OrderItem>> GetOrderItem(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
+            var orderItem = await _context.OrderItems.FindAsync(id);
 
-            if (city == null)
+            if (orderItem == null)
             {
                 return NotFound();
             }
 
-            return city;
+            return orderItem;
         }
 
-        // PUT: api/Cities/5
+        // PUT: api/OrderItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCity(int id, City city)
+        public async Task<IActionResult> PutOrderItem(int id, OrderItem orderItem)
         {
-            if (id != city.CityId)
+            if (id != orderItem.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(city).State = EntityState.Modified;
+            _context.Entry(orderItem).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CityExists(id))
+                if (!OrderItemExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Cities
+        // POST: api/OrderItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<City>> PostCity(City city)
+        public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem orderItem)
         {
-            _context.Cities.Add(city);
+            _context.OrderItems.Add(orderItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCity", new { id = city.CityId }, city);
+            return CreatedAtAction("GetOrderItem", new { id = orderItem.Id }, orderItem);
         }
 
-        // DELETE: api/Cities/5
+        // DELETE: api/OrderItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCity(int id)
+        public async Task<IActionResult> DeleteOrderItem(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
-            if (city == null)
+            var orderItem = await _context.OrderItems.FindAsync(id);
+            if (orderItem == null)
             {
                 return NotFound();
             }
 
-            _context.Cities.Remove(city);
+            _context.OrderItems.Remove(orderItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CityExists(int id)
+        private bool OrderItemExists(int id)
         {
-            return _context.Cities.Any(e => e.CityId == id);
+            return _context.OrderItems.Any(e => e.Id == id);
         }
     }
 }

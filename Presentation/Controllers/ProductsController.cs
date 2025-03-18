@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderItemsController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderItemsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/OrderItems
+        // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItems()
+        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
-            return await _context.OrderItems.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
-        // GET: api/OrderItems/5
+        // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderItem>> GetOrderItem(int id)
+        public async Task<ActionResult<Products>> GetProducts(int id)
         {
-            var orderItem = await _context.OrderItems.FindAsync(id);
+            var products = await _context.Products.FindAsync(id);
 
-            if (orderItem == null)
+            if (products == null)
             {
                 return NotFound();
             }
 
-            return orderItem;
+            return products;
         }
 
-        // PUT: api/OrderItems/5
+        // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrderItem(int id, OrderItem orderItem)
+        public async Task<IActionResult> PutProducts(int id, Products products)
         {
-            if (id != orderItem.Id)
+            if (id != products.ProductId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(orderItem).State = EntityState.Modified;
+            _context.Entry(products).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderItemExists(id))
+                if (!ProductsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/OrderItems
+        // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem orderItem)
+        public async Task<ActionResult<Products>> PostProducts(Products products)
         {
-            _context.OrderItems.Add(orderItem);
+            _context.Products.Add(products);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrderItem", new { id = orderItem.Id }, orderItem);
+            return CreatedAtAction("GetProducts", new { id = products.ProductId }, products);
         }
 
-        // DELETE: api/OrderItems/5
+        // DELETE: api/Products/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrderItem(int id)
+        public async Task<IActionResult> DeleteProducts(int id)
         {
-            var orderItem = await _context.OrderItems.FindAsync(id);
-            if (orderItem == null)
+            var products = await _context.Products.FindAsync(id);
+            if (products == null)
             {
                 return NotFound();
             }
 
-            _context.OrderItems.Remove(orderItem);
+            _context.Products.Remove(products);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool OrderItemExists(int id)
+        private bool ProductsExists(int id)
         {
-            return _context.OrderItems.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.ProductId == id);
         }
     }
 }

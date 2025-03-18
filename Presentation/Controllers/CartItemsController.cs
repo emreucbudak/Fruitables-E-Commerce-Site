@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatsController : ControllerBase
+    public class CartItemsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public StatsController(ApplicationDbContext context)
+        public CartItemsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Stats
+        // GET: api/CartItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Stats>>> GetStats()
+        public async Task<ActionResult<IEnumerable<CartItem>>> GetCartItems()
         {
-            return await _context.Stats.ToListAsync();
+            return await _context.CartItems.ToListAsync();
         }
 
-        // GET: api/Stats/5
+        // GET: api/CartItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Stats>> GetStats(int id)
+        public async Task<ActionResult<CartItem>> GetCartItem(int id)
         {
-            var stats = await _context.Stats.FindAsync(id);
+            var cartItem = await _context.CartItems.FindAsync(id);
 
-            if (stats == null)
+            if (cartItem == null)
             {
                 return NotFound();
             }
 
-            return stats;
+            return cartItem;
         }
 
-        // PUT: api/Stats/5
+        // PUT: api/CartItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStats(int id, Stats stats)
+        public async Task<IActionResult> PutCartItem(int id, CartItem cartItem)
         {
-            if (id != stats.Id)
+            if (id != cartItem.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(stats).State = EntityState.Modified;
+            _context.Entry(cartItem).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StatsExists(id))
+                if (!CartItemExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Stats
+        // POST: api/CartItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Stats>> PostStats(Stats stats)
+        public async Task<ActionResult<CartItem>> PostCartItem(CartItem cartItem)
         {
-            _context.Stats.Add(stats);
+            _context.CartItems.Add(cartItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStats", new { id = stats.Id }, stats);
+            return CreatedAtAction("GetCartItem", new { id = cartItem.Id }, cartItem);
         }
 
-        // DELETE: api/Stats/5
+        // DELETE: api/CartItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStats(int id)
+        public async Task<IActionResult> DeleteCartItem(int id)
         {
-            var stats = await _context.Stats.FindAsync(id);
-            if (stats == null)
+            var cartItem = await _context.CartItems.FindAsync(id);
+            if (cartItem == null)
             {
                 return NotFound();
             }
 
-            _context.Stats.Remove(stats);
+            _context.CartItems.Remove(cartItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool StatsExists(int id)
+        private bool CartItemExists(int id)
         {
-            return _context.Stats.Any(e => e.Id == id);
+            return _context.CartItems.Any(e => e.Id == id);
         }
     }
 }

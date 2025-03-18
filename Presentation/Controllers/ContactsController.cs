@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class ContactsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BillsController(ApplicationDbContext context)
+        public ContactsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Bills
+        // GET: api/Contacts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Contacts.ToListAsync();
         }
 
-        // GET: api/Bills/5
+        // GET: api/Contacts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<Contact>> GetContact(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var contact = await _context.Contacts.FindAsync(id);
 
-            if (bills == null)
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return contact;
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutContact(int id, Contact contact)
         {
-            if (id != bills.Id)
+            if (id != contact.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            _context.Entry(contact).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!ContactExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
-            _context.Bills.Add(bills);
+            _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return CreatedAtAction("GetContact", new { id = contact.Id }, contact);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBills(int id)
+        public async Task<IActionResult> DeleteContact(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
+            var contact = await _context.Contacts.FindAsync(id);
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            _context.Bills.Remove(bills);
+            _context.Contacts.Remove(contact);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
+        private bool ContactExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _context.Contacts.Any(e => e.Id == id);
         }
     }
 }

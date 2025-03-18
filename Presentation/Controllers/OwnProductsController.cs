@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WeGivesController : ControllerBase
+    public class OwnProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public WeGivesController(ApplicationDbContext context)
+        public OwnProductsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/WeGives
+        // GET: api/OwnProducts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WeGives>>> GetWeGives()
+        public async Task<ActionResult<IEnumerable<OwnProduct>>> GetOwnProducts()
         {
-            return await _context.WeGives.ToListAsync();
+            return await _context.OwnProducts.ToListAsync();
         }
 
-        // GET: api/WeGives/5
+        // GET: api/OwnProducts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WeGives>> GetWeGives(int id)
+        public async Task<ActionResult<OwnProduct>> GetOwnProduct(int id)
         {
-            var weGives = await _context.WeGives.FindAsync(id);
+            var ownProduct = await _context.OwnProducts.FindAsync(id);
 
-            if (weGives == null)
+            if (ownProduct == null)
             {
                 return NotFound();
             }
 
-            return weGives;
+            return ownProduct;
         }
 
-        // PUT: api/WeGives/5
+        // PUT: api/OwnProducts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWeGives(int id, WeGives weGives)
+        public async Task<IActionResult> PutOwnProduct(int id, OwnProduct ownProduct)
         {
-            if (id != weGives.Id)
+            if (id != ownProduct.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(weGives).State = EntityState.Modified;
+            _context.Entry(ownProduct).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WeGivesExists(id))
+                if (!OwnProductExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/WeGives
+        // POST: api/OwnProducts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<WeGives>> PostWeGives(WeGives weGives)
+        public async Task<ActionResult<OwnProduct>> PostOwnProduct(OwnProduct ownProduct)
         {
-            _context.WeGives.Add(weGives);
+            _context.OwnProducts.Add(ownProduct);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWeGives", new { id = weGives.Id }, weGives);
+            return CreatedAtAction("GetOwnProduct", new { id = ownProduct.ID }, ownProduct);
         }
 
-        // DELETE: api/WeGives/5
+        // DELETE: api/OwnProducts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWeGives(int id)
+        public async Task<IActionResult> DeleteOwnProduct(int id)
         {
-            var weGives = await _context.WeGives.FindAsync(id);
-            if (weGives == null)
+            var ownProduct = await _context.OwnProducts.FindAsync(id);
+            if (ownProduct == null)
             {
                 return NotFound();
             }
 
-            _context.WeGives.Remove(weGives);
+            _context.OwnProducts.Remove(ownProduct);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool WeGivesExists(int id)
+        private bool OwnProductExists(int id)
         {
-            return _context.WeGives.Any(e => e.Id == id);
+            return _context.OwnProducts.Any(e => e.ID == id);
         }
     }
 }

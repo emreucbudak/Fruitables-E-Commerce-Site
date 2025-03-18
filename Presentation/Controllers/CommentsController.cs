@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 
-namespace FruitablesAPI.Controllers
+namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartItemsController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public CartItemsController(ApplicationDbContext context)
+        public CommentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/CartItems
+        // GET: api/Comments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CartItem>>> GetCartItems()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
-            return await _context.CartItems.ToListAsync();
+            return await _context.Comments.ToListAsync();
         }
 
-        // GET: api/CartItems/5
+        // GET: api/Comments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CartItem>> GetCartItem(int id)
+        public async Task<ActionResult<Comment>> GetComment(int id)
         {
-            var cartItem = await _context.CartItems.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
 
-            if (cartItem == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return cartItem;
+            return comment;
         }
 
-        // PUT: api/CartItems/5
+        // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCartItem(int id, CartItem cartItem)
+        public async Task<IActionResult> PutComment(int id, Comment comment)
         {
-            if (id != cartItem.Id)
+            if (id != comment.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(cartItem).State = EntityState.Modified;
+            _context.Entry(comment).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace FruitablesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CartItemExists(id))
+                if (!CommentExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace FruitablesAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/CartItems
+        // POST: api/Comments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CartItem>> PostCartItem(CartItem cartItem)
+        public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
-            _context.CartItems.Add(cartItem);
+            _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCartItem", new { id = cartItem.Id }, cartItem);
+            return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
-        // DELETE: api/CartItems/5
+        // DELETE: api/Comments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCartItem(int id)
+        public async Task<IActionResult> DeleteComment(int id)
         {
-            var cartItem = await _context.CartItems.FindAsync(id);
-            if (cartItem == null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            _context.CartItems.Remove(cartItem);
+            _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CartItemExists(int id)
+        private bool CommentExists(int id)
         {
-            return _context.CartItems.Any(e => e.Id == id);
+            return _context.Comments.Any(e => e.Id == id);
         }
     }
 }
