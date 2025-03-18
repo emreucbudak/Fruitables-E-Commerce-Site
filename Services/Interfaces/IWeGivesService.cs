@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface IWeGivesService
     {
         Task AddWeGives(WeGives wegs);
-        Task RemoveWeGives(WeGives weGives);
+        Task RemoveWeGives(int weGives);
         Task UpdateWeGives(WeGives wegs);
         Task<IEnumerable<WeGives>> GetAllWeGives(bool v);
         Task<WeGives> GetWeGives(int id ,bool v);

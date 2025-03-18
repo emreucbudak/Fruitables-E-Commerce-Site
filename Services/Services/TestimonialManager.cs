@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -24,10 +25,14 @@ namespace Services.Services
             _rp.Save();
         }
 
-        public async Task DeleteTestimonial(Testimonials testimonials)
+        public async Task DeleteTestimonial(int testimonials)
         {
-            await _rp.testimonial.DeleteTestimonial(testimonials);
-            _rp.Save();
+            var x = await _rp.testimonial.GetTestimonial(testimonials,false);
+            if (x == null)
+            {
+                throw new TestimonialNotFoundExceptions(testimonials);
+            }
+            await _rp.testimonial.DeleteTestimonial(x);
         }
 
         public async Task<IEnumerable<Testimonials>> GetTestimonials(bool v)
@@ -42,7 +47,14 @@ namespace Services.Services
 
         public async Task UpdateTestimonial(Testimonials testimonials)
         {
-            await _rp.testimonial.UpdateTestimonial(testimonials);
+            var x = await _rp.testimonial.GetTestimonial(testimonials.Id, false);
+            if (x == null)
+            {
+                throw new TestimonialNotFoundExceptions(testimonials.Id);
+            }
+            x.Ratio = testimonials.Ratio;
+            x.Comment = testimonials.Comment;
+            await _rp.testimonial.UpdateTestimonial(x);
             _rp.Save();
         }
     }

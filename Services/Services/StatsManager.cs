@@ -22,9 +22,10 @@ namespace Services.Services
             _statsService.Save();
         }
 
-        public async Task DeleteStats(Stats stats)
+        public async Task DeleteStats(int stats)
         {
-            await _statsService.statsRepositories.DeleteStats(stats);
+             var x = await _statsService.statsRepositories.GetStatsByID(stats,false);
+             await _statsService.statsRepositories.DeleteStats(x);
             _statsService.Save();
         }
 
@@ -40,7 +41,12 @@ namespace Services.Services
 
         public async Task UpdateStats(Stats stats)
         {
-            await _statsService.statsRepositories.UpdateStats(stats);
+            var x =  await _statsService.statsRepositories.GetStatsByID(stats.Id, false);
+            x.Title = stats.Title;
+            x.ImgUrl = stats.ImgUrl;
+            x.Count = stats.Count;
+            await _statsService.statsRepositories.UpdateStats(x);
+            _statsService.Save();
         }
     }
 }

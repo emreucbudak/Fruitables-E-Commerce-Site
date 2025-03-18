@@ -43,7 +43,6 @@ namespace Services.Services
             var x = await _rp.IBillsRepositories.GetBillsByID(billsId,false );
             if (x == null)
             {
-                _lg.LogError($"{billsId}'e sahip ürün silinemedi!");
                 throw new BillsNotFoundExceptions(billsId);
             }
             await _rp.IBillsRepositories.DeleteBills(x);
@@ -57,7 +56,6 @@ namespace Services.Services
             var x = await _rp.IBillsRepositories.GetBillsByID(bills.Id, false);
             if (x == null)
             {
-                _lg.LogError($"{bills.Id} was not found.");
                 throw new BillsNotFoundExceptions(bills.Id);
             }
             x.FirstName = bills.FirstName;

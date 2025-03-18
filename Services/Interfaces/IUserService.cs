@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface IUserService
     {
         Task RegisterUser(User user);
-        Task DeleteUser(User user);
+        Task DeleteUser(int user);
         Task<IEnumerable<User>> GetAllUsers(bool v);
         Task<User> GetUserById(int id);
         Task UpdateUser(User user);

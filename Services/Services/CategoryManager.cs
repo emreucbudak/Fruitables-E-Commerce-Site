@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -24,10 +25,16 @@ namespace Services.Services
             _categoryService.Save();
         }
 
-        public async Task DeleteCategoryFromService(Category category)
+        public async Task DeleteCategoryFromService(int category)
         {
-            await _categoryService.ICategoryRepositories.DeleteCategory(category);
+            var x= await _categoryService.ICategoryRepositories.GetCategoryById(category);
+            if (x == null)
+            {
+                throw new CategoryNotFoundExceptions(category);
+            }
+            await _categoryService.ICategoryRepositories.DeleteCategory(x);
             _categoryService.Save();
+
 
         }
 
@@ -43,8 +50,17 @@ namespace Services.Services
 
         public async Task UpdateCategoryFromService(Category category)
         {
+            var x = await _categoryService.ICategoryRepositories.GetCategoryById(category.CategoryID);
+            if(x == null)
+            {
+                throw new CategoryNotFoundExceptions(category.CategoryID);
+            }
+            x.CategoryName = category.CategoryName;
+            x.OwnProducts = category.OwnProducts;
+            x.Products = category.Products;
             await _categoryService.ICategoryRepositories.UpdateCategory(category);
             _categoryService.Save();
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -24,10 +25,15 @@ namespace Services.Services
             _rp.Save();
         }
 
-        public async Task DeleteCommentFromService(Comment comment)
+        public async Task DeleteCommentFromService(int comment)
         {
-            await _rp.ICommentRepositories.DeleteComment(comment);
+            var x = await _rp.ICommentRepositories.GetCommentById(comment,false);
+            if (x == null) {
+                throw new CommentNotFoundExceptions(comment);
+            }
+            await _rp.ICommentRepositories.DeleteComment(x);
             _rp.Save();
+
         }
 
         public async Task<IEnumerable<Comment>> GetAllComments(bool v)
@@ -42,8 +48,16 @@ namespace Services.Services
 
         public async Task UpdateCommentFromService(Comment comment)
         {
-            await _rp.ICommentRepositories.UpdateComment(comment);
+            var x = await _rp.ICommentRepositories.GetCommentById(comment.Id, false);
+            if (x == null) {
+                throw new CommentNotFoundExceptions(comment.Id);
+            }
+            x.Text = comment.Text;
+            x.Ratio = comment.Ratio;
+            x.Date = comment.Date;
+            await _rp.ICommentRepositories.UpdateComment(x);
             _rp.Save();
+            
         }
     }
 }

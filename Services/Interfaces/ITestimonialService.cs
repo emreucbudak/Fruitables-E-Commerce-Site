@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddTestimonial(Testimonials testimonials);
         Task UpdateTestimonial(Testimonials testimonials);
-        Task DeleteTestimonial(Testimonials testimonials);
+        Task DeleteTestimonial(int testimonials);
         Task<IEnumerable<Testimonials>> GetTestimonials(bool v);
         Task <Testimonials> GetTestimonials(int id,bool v);
     }

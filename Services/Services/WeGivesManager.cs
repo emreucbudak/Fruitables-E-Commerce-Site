@@ -34,15 +34,21 @@ namespace Services.Services
             return await _rp.weGivesRepositories.GetWeGives(id, v);
         }
 
-        public async Task RemoveWeGives(WeGives weGives)
+        public async Task RemoveWeGives(int weGives)
         {
-            await _rp.weGivesRepositories.RemoveWeGives(weGives);
+            var x = await _rp.weGivesRepositories.GetWeGives(weGives,false);
+            await _rp.weGivesRepositories.RemoveWeGives(x);
             _rp.Save();
+            
         }
 
         public async Task UpdateWeGives(WeGives wegs)
         {
-            await _rp.weGivesRepositories.UpdateWeGives(wegs);
+            var x = await _rp.weGivesRepositories.GetWeGives(wegs.Id, false);
+            x.Title = wegs.Title;
+            x.Description = wegs.Description;
+            x.ImgUrl = wegs.ImgUrl;
+            await _rp.weGivesRepositories.UpdateWeGives(x);
             _rp.Save();
         }
     }

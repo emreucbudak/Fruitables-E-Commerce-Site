@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface ICartService
     {
         Task AddCartFromService(Cart cart);
-        Task DeleteCartFromService(Cart cart);
+        Task DeleteCartFromService(int cart);
         Task<IEnumerable<Cart>> GetAllCarts(bool v);
         Task<Cart> GetCartByIdFromService(int id, bool v);
         Task UpdateCartFromService(Cart cart);

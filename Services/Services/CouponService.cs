@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -24,9 +25,13 @@ namespace Services.Services
             _rp.Save();
         }
 
-        public async Task DeleteCouponFromService(Coupon cpn)
+        public async Task DeleteCouponFromService(int cpn)
         {
-            await _rp.ICouponRepositories.DeleteCoupon(cpn);
+            var x = await _rp.ICouponRepositories.GetCouponById(cpn,false);
+            if (x == null) {
+                throw new CouponNotFoundExceptions(cpn);
+            }
+            await _rp.ICouponRepositories.DeleteCoupon(x);
             _rp.Save();
         }
 
@@ -43,8 +48,16 @@ namespace Services.Services
 
         public async Task UpdateCouponFromService(Coupon cpn)
         {
-            await _rp.ICouponRepositories.UpdateCoupon(cpn);
-            _rp.Save(); 
+            var x = await _rp.ICouponRepositories.GetCouponById(cpn.Id, false);
+            if (x == null) {
+                throw new CouponNotFoundExceptions(cpn.Id);
+            }
+            x.Quantity = cpn.Quantity;
+            x.Discount = cpn.Discount;
+            x.ExpDate = cpn.ExpDate;
+            x.Code = cpn.Code;
+            await _rp.ICouponRepositories.UpdateCoupon(x);
+            _rp.Save();
         }
     }
 }

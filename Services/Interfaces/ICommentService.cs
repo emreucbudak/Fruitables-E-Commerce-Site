@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface ICommentService
     {
         Task AddCommentFromService(Comment comment);
-        Task DeleteCommentFromService(Comment comment);
+        Task DeleteCommentFromService(int comment);
         Task<IEnumerable<Comment>> GetAllComments(bool v);
         Task UpdateCommentFromService(Comment comment);
         Task<Comment> GetCommentById(int id,bool v);

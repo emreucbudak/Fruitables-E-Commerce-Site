@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -24,10 +25,13 @@ namespace Services.Services
             _contactService.Save();
         }
 
-        public async Task DeleteContactFromService(Contact category)
+        public async Task DeleteContactFromService(int category)
         {
-            await _contactService.IContactRepository.DeleteContact(category);
-            _contactService.Save();
+            var x= await _contactService.IContactRepository.GetContactById(category,false);
+            if (x == null) {
+                throw new ContactNotFoundExceptions(category);
+            }
+            await _contactService.IContactRepository.DeleteContact(x);
         }
 
         public async Task<IEnumerable<Contact>> GetAllContact(bool v)

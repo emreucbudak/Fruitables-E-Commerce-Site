@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddCouponFromService(Coupon cpn);
         Task UpdateCouponFromService(Coupon cpn);
-        Task DeleteCouponFromService(Coupon cpn);
+        Task DeleteCouponFromService(int cpn);
         Task<IEnumerable<Coupon>> GetAllCoupons(bool v);
         Task<Coupon> GetCoupons(int id , bool v);
     }

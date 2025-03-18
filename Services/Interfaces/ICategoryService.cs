@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddCategoryFromService(Category category);
         Task UpdateCategoryFromService(Category category);
-        Task DeleteCategoryFromService(Category category);
+        Task DeleteCategoryFromService(int category);
         Task<IEnumerable<Category>> GetAllCategories(bool v);
         Task<Category> GetCategoryById(int id);
 

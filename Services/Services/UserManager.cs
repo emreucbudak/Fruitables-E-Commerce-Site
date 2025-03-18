@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -18,10 +19,15 @@ namespace Services.Services
             _mng = mng;
         }
 
-        public async Task DeleteUser(User user)
+        public async Task DeleteUser(int user)
         {
-            await _mng.userRepositories.DeleteUser(user);
+            var x = await _mng.userRepositories.GetUsers(user,false);
+            if (x == null) {
+                throw new UserNotFoundExceptions(user);
+            }
+            await _mng.userRepositories.DeleteUser(x);
             _mng.Save();
+
         }
 
         public async Task<IEnumerable<User>> GetAllUsers(bool v)
@@ -42,7 +48,15 @@ namespace Services.Services
 
         public async Task UpdateUser(User user)
         {
-            await _mng.userRepositories.UpdateUser(user);
+            var x = await _mng.userRepositories.GetUsers(user.UserID, false);
+            if (x == null)
+            {
+                throw new UserNotFoundExceptions(user.UserID);
+            }
+            x.Email = user.Email;
+            x.Name = user.Name;
+            x.Password = user.Password;
+            await _mng.userRepositories.UpdateUser(x);
             _mng.Save();
         }
     }

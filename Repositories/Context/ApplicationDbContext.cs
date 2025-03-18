@@ -20,6 +20,8 @@ namespace Repositories.Context
         public DbSet<Stats> Stats { get; set; }
         public DbSet<Testimonials> Testimonials { get; set; }
         public DbSet<WeGives> WeGives { get; set; }
+        public DbSet<City> Cities {  get; set; }
+        public DbSet<Country> Countries { get; set; }
 
     }
 }

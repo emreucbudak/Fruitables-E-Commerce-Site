@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -34,15 +35,29 @@ namespace Services.Services
             return await _rp.ownProducts.GetOwnProductById(id,false);
         }
 
-        public async Task RemoveOwnProductsFromService(OwnProduct ownProduct)
+        public async Task RemoveOwnProductsFromService(int ownProduct)
         {
-            await _rp.ownProducts.RemoveOwnProduct(ownProduct);
+            var x = await _rp.ownProducts.GetOwnProductById(ownProduct,false);
+            if (x == null)
+            {
+                throw new OwnProductNotFoundExceptions(ownProduct);
+            }
+            await _rp.ownProducts.RemoveOwnProduct(x);
             _rp.Save();
         }
 
         public async Task UpdateOwnProductsFromService(OwnProduct ownProduct)
         {
-            await _rp.ownProducts.UpdateOwnProduct(ownProduct);
+            var x = await _rp.ownProducts.GetOwnProductById(ownProduct.ID,false);
+            if ( x== null)
+            {
+                throw new OwnProductNotFoundExceptions(ownProduct.ID);
+            }
+            x.Description = ownProduct.Description;
+            x.Name = ownProduct.Name;
+            x.ImgUrl = ownProduct.ImgUrl;
+            x.CategoryID = ownProduct.CategoryID;
+            await _rp.ownProducts.UpdateOwnProduct(x);
             _rp.Save();
         }
     }

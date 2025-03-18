@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -25,12 +26,13 @@ namespace Services.Services
 
         }
 
-        public async Task DeleteCartFromService(Cart cart)
+        public async Task DeleteCartFromService(int cart)
         {
-            var x = await _rp.ICartRepositories.GetCartByID(cart.ID);
-            if (x == null) { 
+            var x = await _rp.ICartRepositories.GetCartByID(cart);
+            if (x == null) {
+                throw new CartNotFoundExceptions(cart);
             }
-            await _rp.ICartRepositories.DeleteCart(cart);
+            await _rp.ICartRepositories.DeleteCart(x);
             _rp.Save();
         }
 
@@ -46,7 +48,15 @@ namespace Services.Services
 
         public async Task UpdateCartFromService(Cart cart)
         {
-            await _rp.ICartRepositories.UpdateCart(cart);
+            var x = await _rp.ICartRepositories.GetCartByID(cart.ID);
+            if (x == null) {
+                throw new CartNotFoundExceptions(cart.ID);
+
+            }
+            x.CartItems = cart.CartItems;
+            x.User = cart.User;
+            x.UserID = cart.UserID;
+            await _rp.ICartRepositories.UpdateCart(x);
             _rp.Save();
         }
     }

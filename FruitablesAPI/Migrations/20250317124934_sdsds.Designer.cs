@@ -12,8 +12,8 @@ using Repositories.Context;
 namespace FruitablesAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250316021129_dsds")]
-    partial class dsds
+    [Migration("20250317124934_sdsds")]
+    partial class sdsds
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,6 +143,32 @@ namespace FruitablesAPI.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Entities.Models.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CityId");
+
+                    b.HasIndex("CountryID");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("Entities.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -202,6 +228,23 @@ namespace FruitablesAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("Entities.Models.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Entities.Models.Coupon", b =>
@@ -500,6 +543,17 @@ namespace FruitablesAPI.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Entities.Models.City", b =>
+                {
+                    b.HasOne("Entities.Models.Country", "Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("Entities.Models.Comment", b =>
                 {
                     b.HasOne("Entities.Models.Products", "Products")
@@ -581,6 +635,11 @@ namespace FruitablesAPI.Migrations
                     b.Navigation("OwnProducts");
 
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Entities.Models.Country", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("Entities.Models.Order", b =>
