@@ -13,10 +13,12 @@ namespace Services.Services
     public class CategoryManager : ICategoryService
     {
         private readonly IRepositoryManager _categoryService;
+        private readonly ILoggerService _logg;
 
-        public CategoryManager(IRepositoryManager categoryService)
+        public CategoryManager(IRepositoryManager categoryService,ILoggerService _lg)
         {
             _categoryService = categoryService;
+            _logg = _lg;
         }
 
         public async Task AddCategoryFromService(Category category)

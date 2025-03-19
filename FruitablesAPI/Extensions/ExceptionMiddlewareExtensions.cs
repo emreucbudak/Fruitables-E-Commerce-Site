@@ -5,9 +5,9 @@ using Services.Interfaces;
 
 namespace FruitablesAPI.Extensions
 {
-    public class ExceptionMiddlewareExtensions
+    public static class ExceptionMiddlewareExtensions
     {
-        public static void UseExceptionHandler (WebApplication app, ILoggerService _lg)
+        public static void ConfigureExceptionHandler (this WebApplication app, ILoggerService _lg)
         {
             app.UseExceptionHandler(error =>
             {

@@ -2,6 +2,8 @@ using FruitablesAPI.Extensions;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Repositories.Context;
+using Services.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.ConfigureLoggerService();
 
 
 var app = builder.Build();
+var logger = app.Services.GetRequiredService<ILoggerService>();
+app.ConfigureExceptionHandler(logger);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

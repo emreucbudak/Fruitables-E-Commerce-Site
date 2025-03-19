@@ -28,7 +28,7 @@ namespace Services.Services
         public ServiceManager(IRepositoryManager rp,ILoggerService _log)
         {
             _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log));
-            _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp,_log));
             _commentService = new Lazy<ICommentService>(() => new CommentService(rp));
             _contactService = new Lazy<IContactService>(() => new ContactManager(rp));
             _couponService = new Lazy<ICouponService>(() => new CouponService(rp));

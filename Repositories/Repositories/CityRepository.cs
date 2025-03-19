@@ -18,7 +18,7 @@ namespace Repositories.Repositories
 
         public async Task<IEnumerable<City>> GetAllCity(bool v)
         {
-            return await GetAll(v).ToListAsync();
+            return await GetAll(v).Include(c => c.Country).ToListAsync();
         }
     }
 }
