@@ -47,9 +47,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateContactFromService(Contact category)
+        public async Task UpdateContactFromService(int id , Contact category)
         {
-            var x = await GetContact(category.Id);
+            var x = await GetContact(id);
             x.Email = category.Email;
             x.Name = category.Name;
             x.Message = category.Message;

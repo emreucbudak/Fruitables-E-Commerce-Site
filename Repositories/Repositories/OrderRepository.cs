@@ -12,7 +12,7 @@ namespace Repositories.Repositories
 {
     public class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
-        public OrderRepository(ApplicationDbContext context) : base(context)
+        public OrderRepository(ApplicationDbContext  context) : base(context)
         {
         }
 

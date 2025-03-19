@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class StatsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public StatsController(ApplicationDbContext context)
+        public StatsController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,21 +26,16 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stats>>> GetStats()
         {
-            return await _context.Stats.ToListAsync();
+            var x = await _context.StatsService.GetStats(false);
+            return Ok(x);
         }
 
         // GET: api/Stats/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Stats>> GetStats(int id)
         {
-            var stats = await _context.Stats.FindAsync(id);
-
-            if (stats == null)
-            {
-                return NotFound();
-            }
-
-            return stats;
+            var x = await _context.StatsService.GetStatsById(id,false);
+            return Ok(x);
         }
 
         // PUT: api/Stats/5
@@ -47,28 +43,7 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStats(int id, Stats stats)
         {
-            if (id != stats.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(stats).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StatsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.StatsService.UpdateStats(id, stats);
 
             return NoContent();
         }
@@ -78,8 +53,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Stats>> PostStats(Stats stats)
         {
-            _context.Stats.Add(stats);
-            await _context.SaveChangesAsync();
+            await _context.StatsService.AddStats(stats);
 
             return CreatedAtAction("GetStats", new { id = stats.Id }, stats);
         }
@@ -88,21 +62,11 @@ namespace Presentation.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStats(int id)
         {
-            var stats = await _context.Stats.FindAsync(id);
-            if (stats == null)
-            {
-                return NotFound();
-            }
-
-            _context.Stats.Remove(stats);
-            await _context.SaveChangesAsync();
+            await _context.StatsService.DeleteStats(id);
 
             return NoContent();
         }
 
-        private bool StatsExists(int id)
-        {
-            return _context.Stats.Any(e => e.Id == id);
-        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddOwnProductsFromService(OwnProduct ownProduct);
         Task RemoveOwnProductsFromService(int ownProduct);
-        Task UpdateOwnProductsFromService(OwnProduct ownProduct);
+        Task UpdateOwnProductsFromService(int id , OwnProduct ownProduct);
         Task<IEnumerable<OwnProduct>> GetAllOwnProducts(bool v);
         Task<OwnProduct> GetOwnProductById(int id);
 

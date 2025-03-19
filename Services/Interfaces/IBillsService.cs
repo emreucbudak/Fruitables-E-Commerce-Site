@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddBillsFromService(Bills bil);
         Task <Bills>RemoveBillsFromService(int billsId);
-        Task <Bills>UpdateBillsFromService(Bills bills);
+        Task <Bills>UpdateBillsFromService(int id , Bills bills);
         Task<IEnumerable<Bills>> GetAllBillsFromService(bool v);
         Task<Bills> GetBillsFromService(int billsId);
 

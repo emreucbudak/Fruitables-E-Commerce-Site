@@ -46,9 +46,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateStats(Stats stats)
+        public async Task UpdateStats(int id , Stats stats)
         {
-            var x =  await GetStatsById(stats.Id, false);
+            var x =  await GetStatsById(id, false);
 
             x.Title = stats.Title;
             x.ImgUrl = stats.ImgUrl;

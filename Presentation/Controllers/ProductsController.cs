@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,21 +26,16 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+           var x = _context.ProductService.GetAllProducts(false);
+            return Ok(x);
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProducts(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-
-            if (products == null)
-            {
-                return NotFound();
-            }
-
-            return products;
+            var x = await _context.ProductService.GetProductById(id,false);
+            return Ok(x);
         }
 
         // PUT: api/Products/5
@@ -47,28 +43,7 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducts(int id, Products products)
         {
-            if (id != products.ProductId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(products).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.ProductService.UpdateProductFromService(id, products);
 
             return NoContent();
         }
@@ -78,8 +53,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Products>> PostProducts(Products products)
         {
-            _context.Products.Add(products);
-            await _context.SaveChangesAsync();
+            await _context.ProductService.AddProductFromService(products);
 
             return CreatedAtAction("GetProducts", new { id = products.ProductId }, products);
         }
@@ -88,21 +62,11 @@ namespace Presentation.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProducts(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
-            {
-                return NotFound();
-            }
-
-            _context.Products.Remove(products);
-            await _context.SaveChangesAsync();
+            await _context.ProductService.DeleteProductFromService(id);
 
             return NoContent();
         }
 
-        private bool ProductsExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
-        }
+
     }
 }

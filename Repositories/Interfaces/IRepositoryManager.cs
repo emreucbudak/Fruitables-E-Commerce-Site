@@ -20,6 +20,8 @@ namespace Repositories.Interfaces
         ITestimonialRepository testimonial { get; }
         IUserRepositories userRepositories { get; }
         IWeGivesRepositories weGivesRepositories { get; }
+        ICityRepository cityRepository { get; }
+        ICountryRepository countryRepository { get; }
         void Save();
 
     }

@@ -49,9 +49,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateProductFromService(Products prd)
+        public async Task UpdateProductFromService(int id,  Products prd)
         {
-            var x = await GetProductById(prd.ProductId, false);
+            var x = await GetProductById(id, false);
 
             x.Price = prd.Price;
             x.Name = prd.Name;

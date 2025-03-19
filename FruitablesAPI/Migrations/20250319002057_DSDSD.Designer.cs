@@ -12,8 +12,8 @@ using Repositories.Context;
 namespace FruitablesAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250318125638_asdasd")]
-    partial class asdasd
+    [Migration("20250319002057_DSDSD")]
+    partial class DSDSD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

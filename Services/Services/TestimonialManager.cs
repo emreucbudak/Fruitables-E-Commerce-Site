@@ -37,6 +37,8 @@ namespace Services.Services
             return await _rp.testimonial.GetAllTestimonials(v);
         }
 
+
+
         public async Task<Testimonials> GetTestimonialss(int id, bool v)
         {
             var x =  await _rp.testimonial.GetTestimonial(id, v);    
@@ -47,9 +49,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateTestimonial(Testimonials testimonials)
+        public async Task UpdateTestimonial(int id , Testimonials testimonials)
         {
-            var x = await GetTestimonialss(testimonials.Id,false);
+            var x = await GetTestimonialss(id,false);
 
             x.Ratio = testimonials.Ratio;
             x.Comment = testimonials.Comment;

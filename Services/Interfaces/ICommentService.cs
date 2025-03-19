@@ -12,7 +12,7 @@ namespace Services.Interfaces
         Task AddCommentFromService(Comment comment);
         Task DeleteCommentFromService(int comment);
         Task<IEnumerable<Comment>> GetAllComments(bool v);
-        Task UpdateCommentFromService(Comment comment);
+        Task UpdateCommentFromService(int id , Comment comment);
         Task<Comment> GetCommentById(int id,bool v);
     }
 }

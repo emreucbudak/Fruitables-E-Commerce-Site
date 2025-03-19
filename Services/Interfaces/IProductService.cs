@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddProductFromService(Products prd);
         Task DeleteProductFromService(int prd);
-        Task UpdateProductFromService(Products prd);
+        Task UpdateProductFromService(int id , Products prd);
         Task<IEnumerable<Products>> GetAllProducts(bool v);
         Task<Products> GetProductById(int id , bool v);
 

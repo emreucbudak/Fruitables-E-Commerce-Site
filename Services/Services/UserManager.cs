@@ -48,9 +48,9 @@ namespace Services.Services
             _mng.Save();
         }
 
-        public async Task UpdateUser(User user)
+        public async Task UpdateUser(int id ,User user)
         {
-            var x = await GetUserById(user.UserID);
+            var x = await GetUserById(id);
             x.Email = user.Email;
             x.Name = user.Name;
             x.Password = user.Password;

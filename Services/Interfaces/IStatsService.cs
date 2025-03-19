@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface IStatsService
     {
         Task AddStats(Stats stats);
-        Task UpdateStats(Stats stats);
+        Task UpdateStats(int id ,Stats stats);
         Task DeleteStats(int stats);
         Task<IEnumerable<Stats>> GetStats(bool v);
         Task<Stats> GetStatsById(int id , bool v);

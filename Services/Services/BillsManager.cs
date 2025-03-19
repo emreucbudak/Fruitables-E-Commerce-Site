@@ -24,6 +24,7 @@ namespace Services.Services
 
         public async Task AddBillsFromService(Bills bil)
         {
+
             await _rp.IBillsRepositories.AddBills(bil);
             _rp.Save();
         }
@@ -52,9 +53,9 @@ namespace Services.Services
 
         }
 
-        public async Task<Bills> UpdateBillsFromService(Bills bills)
+        public async Task<Bills> UpdateBillsFromService(int id , Bills bills)
         {
-            var x = await GetBillsFromService(bills.Id);
+            var x = await GetBillsFromService(id);
 
             x.FirstName = bills.FirstName;
             x.LastName = bills.LastName;

@@ -10,9 +10,9 @@ namespace Services.Interfaces
     public interface ITestimonialService
     {
         Task AddTestimonial(Testimonials testimonials);
-        Task UpdateTestimonial(Testimonials testimonials);
+        Task UpdateTestimonial(int id , Testimonials testimonials);
         Task DeleteTestimonial(int testimonials);
         Task<IEnumerable<Testimonials>> GetTestimonials(bool v);
-        Task <Testimonials> GetTestimonials(int id,bool v);
+        Task <Testimonials> GetTestimonialss(int id,bool v);
     }
 }

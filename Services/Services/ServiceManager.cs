@@ -22,6 +22,8 @@ namespace Services.Services
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<ITestimonialService> testimonialService; 
         private readonly Lazy<IWeGivesService> weGivesService;
+        private readonly Lazy<ICityService> cityService;
+        private readonly Lazy<ICountryService> countryService;
 
         public ServiceManager(IRepositoryManager rp,ILoggerService _log)
         {
@@ -37,6 +39,8 @@ namespace Services.Services
             testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp));
             weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp));
             _cartService = new Lazy<ICartService>(() => new CartManager(rp));
+            cityService = new Lazy<ICityService>(() => new CityManager(rp));
+            countryService = new Lazy<ICountryService>(() => new CountryManager(rp));
 
 
         }
@@ -64,5 +68,9 @@ namespace Services.Services
         public ITestimonialService TestimonialService => testimonialService.Value;
 
         public IWeGivesService WeGivesService => weGivesService.Value;
+
+        public ICityService CityService => cityService.Value;
+
+        public ICountryService CountryService => countryService.Value;
     }
 }

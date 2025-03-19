@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class WeGivesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public WeGivesController(ApplicationDbContext context)
+        public WeGivesController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,19 +26,15 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WeGives>>> GetWeGives()
         {
-            return await _context.WeGives.ToListAsync();
+            var x = await _context.WeGivesService.GetAllWeGives(false);
+            return Ok(x);
         }
 
         // GET: api/WeGives/5
         [HttpGet("{id}")]
         public async Task<ActionResult<WeGives>> GetWeGives(int id)
         {
-            var weGives = await _context.WeGives.FindAsync(id);
-
-            if (weGives == null)
-            {
-                return NotFound();
-            }
+            var weGives = await _context.WeGivesService.GetWeGives(id,false);
 
             return weGives;
         }
@@ -47,28 +44,7 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWeGives(int id, WeGives weGives)
         {
-            if (id != weGives.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(weGives).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WeGivesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.WeGivesService.UpdateWeGives(id, weGives);
 
             return NoContent();
         }
@@ -78,8 +54,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<WeGives>> PostWeGives(WeGives weGives)
         {
-            _context.WeGives.Add(weGives);
-            await _context.SaveChangesAsync();
+            await _context.WeGivesService.AddWeGives(weGives);
 
             return CreatedAtAction("GetWeGives", new { id = weGives.Id }, weGives);
         }
@@ -88,21 +63,9 @@ namespace Presentation.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWeGives(int id)
         {
-            var weGives = await _context.WeGives.FindAsync(id);
-            if (weGives == null)
-            {
-                return NotFound();
-            }
-
-            _context.WeGives.Remove(weGives);
-            await _context.SaveChangesAsync();
+            await _context.WeGivesService.RemoveWeGives(id);
 
             return NoContent();
-        }
-
-        private bool WeGivesExists(int id)
-        {
-            return _context.WeGives.Any(e => e.Id == id);
         }
     }
 }

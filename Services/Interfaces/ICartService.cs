@@ -13,6 +13,6 @@ namespace Services.Interfaces
         Task DeleteCartFromService(int cart);
         Task<IEnumerable<Cart>> GetAllCarts(bool v);
         Task<Cart> GetCartByIdFromService(int id, bool v);
-        Task UpdateCartFromService(Cart cart);
+        Task UpdateCartFromService(int id ,Cart cart);
     }
 }

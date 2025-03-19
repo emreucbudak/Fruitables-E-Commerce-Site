@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class CartsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public CartsController(ApplicationDbContext context)
+        public CartsController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,50 +26,25 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
         {
-            return await _context.Carts.ToListAsync();
+            var x =  await _context.CartService.GetAllCarts(false);
+            return Ok(x);
         }
 
         // GET: api/Carts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cart>> GetCart(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
+            var x = await _context.CartService.GetCartByIdFromService(id,false);
+            return Ok(x);
 
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return cart;
         }
 
         // PUT: api/Carts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCart(int id, Cart cart)
+        public async Task<IActionResult> PutCart(int id , Cart cart)
         {
-            if (id != cart.ID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(cart).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CartExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.CartService.UpdateCartFromService(id , cart);
 
             return NoContent();
         }
@@ -78,31 +54,18 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCart", new { id = cart.ID }, cart);
+            await _context.CartService.AddCartFromService(cart);
+            return Ok(cart);
         }
 
         // DELETE: api/Carts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCart(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
+            await _context.CartService.DeleteCartFromService(id);
 
             return NoContent();
         }
 
-        private bool CartExists(int id)
-        {
-            return _context.Carts.Any(e => e.ID == id);
-        }
     }
 }

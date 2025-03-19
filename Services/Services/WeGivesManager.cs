@@ -49,9 +49,9 @@ namespace Services.Services
             
         }
 
-        public async Task UpdateWeGives(WeGives wegs)
+        public async Task UpdateWeGives(int id , WeGives wegs)
         {
-            var x = await GetWeGives(wegs.Id, false);
+            var x = await GetWeGives(id, false);
             x.Title = wegs.Title;
             x.Description = wegs.Description;
             x.ImgUrl = wegs.ImgUrl;

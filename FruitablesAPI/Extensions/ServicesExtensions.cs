@@ -22,7 +22,7 @@ namespace FruitablesAPI.Extensions
         }
         public static void ConfigureServiceManager(this IServiceCollection services)
         {
-            services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<Services.Interfaces.IServiceManager, ServiceManager>();
         }
         public static void ConfigureRepositoryItems(this IServiceCollection services)
         {

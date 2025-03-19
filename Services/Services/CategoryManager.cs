@@ -49,9 +49,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateCategoryFromService(Category category)
+        public async Task UpdateCategoryFromService(int id , Category category)
         {
-            var x = await GetCategoryById(category.CategoryID); 
+            var x = await GetCategoryById(id); 
             x.CategoryName = category.CategoryName;
             x.OwnProducts = category.OwnProducts;
             x.Products = category.Products;

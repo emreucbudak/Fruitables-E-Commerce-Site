@@ -50,9 +50,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateCouponFromService(Coupon cpn)
+        public async Task UpdateCouponFromService(int id , Coupon cpn)
         {
-            var x = await GetCoupons(cpn.Id , false);
+            var x = await GetCoupons(id , false);
             x.Quantity = cpn.Quantity;
             x.Discount = cpn.Discount;
             x.ExpDate = cpn.ExpDate;

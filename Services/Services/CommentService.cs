@@ -48,9 +48,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateCommentFromService(Comment comment)
+        public async Task UpdateCommentFromService(int id , Comment comment)
         {
-            var x = await GetCommentById(comment.Id,false);
+            var x = await GetCommentById(id,false);
 
             x.Text = comment.Text;
             x.Ratio = comment.Ratio;

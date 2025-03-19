@@ -46,9 +46,9 @@ namespace Services.Services
             return x;
         }
 
-        public async Task UpdateCartFromService(Cart cart)
+        public async Task UpdateCartFromService(int id , Cart cart)
         {
-            var x = await GetCartByIdFromService(cart.ID, false);
+            var x = await GetCartByIdFromService(id, false);
             x.CartItems = cart.CartItems;
             x.User = cart.User;
             x.UserID = cart.UserID;

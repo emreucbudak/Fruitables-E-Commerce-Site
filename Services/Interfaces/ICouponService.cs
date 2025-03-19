@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface ICouponService
     {
         Task AddCouponFromService(Coupon cpn);
-        Task UpdateCouponFromService(Coupon cpn);
+        Task UpdateCouponFromService(int id , Coupon cpn);
         Task DeleteCouponFromService(int cpn);
         Task<IEnumerable<Coupon>> GetAllCoupons(bool v);
         Task<Coupon> GetCoupons(int id , bool v);

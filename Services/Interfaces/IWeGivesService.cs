@@ -11,7 +11,7 @@ namespace Services.Interfaces
     {
         Task AddWeGives(WeGives wegs);
         Task RemoveWeGives(int weGives);
-        Task UpdateWeGives(WeGives wegs);
+        Task UpdateWeGives(int id , WeGives wegs);
         Task<IEnumerable<WeGives>> GetAllWeGives(bool v);
         Task<WeGives> GetWeGives(int id ,bool v);
     }

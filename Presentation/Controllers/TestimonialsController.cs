@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class TestimonialsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public TestimonialsController(ApplicationDbContext context)
+        public TestimonialsController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,21 +26,17 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Testimonials>>> GetTestimonials()
         {
-            return await _context.Testimonials.ToListAsync();
+            var x = await _context.TestimonialService.GetTestimonials(false);
+            return Ok(x);
+
         }
 
         // GET: api/Testimonials/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Testimonials>> GetTestimonials(int id)
         {
-            var testimonials = await _context.Testimonials.FindAsync(id);
-
-            if (testimonials == null)
-            {
-                return NotFound();
-            }
-
-            return testimonials;
+            var testimonials = await _context.TestimonialService.GetTestimonialss(id, false);
+            return Ok(testimonials);
         }
 
         // PUT: api/Testimonials/5
@@ -47,28 +44,7 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTestimonials(int id, Testimonials testimonials)
         {
-            if (id != testimonials.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(testimonials).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TestimonialsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.TestimonialService.UpdateTestimonial(id, testimonials);
 
             return NoContent();
         }
@@ -78,8 +54,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Testimonials>> PostTestimonials(Testimonials testimonials)
         {
-            _context.Testimonials.Add(testimonials);
-            await _context.SaveChangesAsync();
+            await _context.TestimonialService.AddTestimonial(testimonials);
 
             return CreatedAtAction("GetTestimonials", new { id = testimonials.Id }, testimonials);
         }
@@ -88,21 +63,11 @@ namespace Presentation.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTestimonials(int id)
         {
-            var testimonials = await _context.Testimonials.FindAsync(id);
-            if (testimonials == null)
-            {
-                return NotFound();
-            }
-
-            _context.Testimonials.Remove(testimonials);
-            await _context.SaveChangesAsync();
+            await _context.TestimonialService.DeleteTestimonial(id);
 
             return NoContent();
         }
 
-        private bool TestimonialsExists(int id)
-        {
-            return _context.Testimonials.Any(e => e.Id == id);
-        }
+
     }
 }

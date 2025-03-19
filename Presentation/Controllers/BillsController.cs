@@ -42,31 +42,9 @@ namespace Presentation.Controllers
         // PUT: api/Bills/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutBills(int id , Bills bills)
         {
-            if (id != bills.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(bills).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BillsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _context.BillsService.UpdateBillsFromService(id, bills);
             return NoContent();
         }
 
@@ -75,8 +53,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<Bills>> PostBills(Bills bills)
         {
-            _context.Bills.Add(bills);
-            await _context.SaveChangesAsync();
+            await _context.BillsService.AddBillsFromService(bills);
 
             return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
         }
@@ -85,21 +62,11 @@ namespace Presentation.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBills(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
-            {
-                return NotFound();
-            }
-
-            _context.Bills.Remove(bills);
-            await _context.SaveChangesAsync();
+            await _context.BillsService.RemoveBillsFromService(id);
 
             return NoContent();
         }
 
-        private bool BillsExists(int id)
-        {
-            return _context.Bills.Any(e => e.Id == id);
-        }
+
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
+using Services.Interfaces;
 
 namespace Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class OwnProductsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceManager _context;
 
-        public OwnProductsController(ApplicationDbContext context)
+        public OwnProductsController(IServiceManager context)
         {
             _context = context;
         }
@@ -25,21 +26,16 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OwnProduct>>> GetOwnProducts()
         {
-            return await _context.OwnProducts.ToListAsync();
+            var x = await _context.OwnProductsService.GetAllOwnProducts(false);
+            return Ok(x);
         }
 
         // GET: api/OwnProducts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OwnProduct>> GetOwnProduct(int id)
         {
-            var ownProduct = await _context.OwnProducts.FindAsync(id);
-
-            if (ownProduct == null)
-            {
-                return NotFound();
-            }
-
-            return ownProduct;
+            var x = await _context.OwnProductsService.GetOwnProductById(id);
+            return Ok(x);
         }
 
         // PUT: api/OwnProducts/5
@@ -47,28 +43,7 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOwnProduct(int id, OwnProduct ownProduct)
         {
-            if (id != ownProduct.ID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(ownProduct).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OwnProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.OwnProductsService.UpdateOwnProductsFromService(id, ownProduct);
 
             return NoContent();
         }
@@ -78,8 +53,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<OwnProduct>> PostOwnProduct(OwnProduct ownProduct)
         {
-            _context.OwnProducts.Add(ownProduct);
-            await _context.SaveChangesAsync();
+            await _context.OwnProductsService.AddOwnProductsFromService(ownProduct);
 
             return CreatedAtAction("GetOwnProduct", new { id = ownProduct.ID }, ownProduct);
         }
@@ -88,21 +62,12 @@ namespace Presentation.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOwnProduct(int id)
         {
-            var ownProduct = await _context.OwnProducts.FindAsync(id);
-            if (ownProduct == null)
-            {
-                return NotFound();
-            }
+            await _context.OwnProductsService.RemoveOwnProductsFromService(id);
 
-            _context.OwnProducts.Remove(ownProduct);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool OwnProductExists(int id)
-        {
-            return _context.OwnProducts.Any(e => e.ID == id);
-        }
+
     }
 }

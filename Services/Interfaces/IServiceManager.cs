@@ -20,5 +20,7 @@ namespace Services.Interfaces
         IUserService UserService { get; }
         ITestimonialService TestimonialService { get; }
         IWeGivesService WeGivesService { get; }
+        ICityService CityService { get; }
+        ICountryService CountryService { get; }
     }
 }

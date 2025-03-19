@@ -13,6 +13,6 @@ namespace Services.Interfaces
         Task DeleteUser(int user);
         Task<IEnumerable<User>> GetAllUsers(bool v);
         Task<User> GetUserById(int id);
-        Task UpdateUser(User user);
+        Task UpdateUser(int id , User user);
     }
 }

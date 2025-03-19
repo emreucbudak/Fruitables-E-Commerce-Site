@@ -48,9 +48,9 @@ namespace Services.Services
             _rp.Save();
         }
 
-        public async Task UpdateOwnProductsFromService(OwnProduct ownProduct)
+        public async Task UpdateOwnProductsFromService(int id , OwnProduct ownProduct)
         {
-            var x = await GetOwnProductById(ownProduct.ID);
+            var x = await GetOwnProductById(id);
 
             x.Description = ownProduct.Description;
             x.Name = ownProduct.Name;
