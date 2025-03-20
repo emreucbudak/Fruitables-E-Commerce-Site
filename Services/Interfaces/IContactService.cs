@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Services.Interfaces
     {
         Task AddContactFromService(Contact category);
         Task DeleteContactFromService(int category);
-        Task<IEnumerable<Contact>> GetAllContact(bool v);
+        Task<IEnumerable<ContactDto>> GetAllContact(bool v);
         Task<Contact> GetContact(int id);
         Task UpdateContactFromService(int id ,Contact category);
     }

@@ -1,4 +1,6 @@
-﻿using Entities.Exceptions;
+﻿using AutoMapper;
+using Entities.DTO;
+using Entities.Exceptions;
 using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
@@ -13,10 +15,11 @@ namespace Services.Services
     public class ContactManager : IContactService
     {
         private readonly IRepositoryManager _contactService;
-
-        public ContactManager(IRepositoryManager contactService)
+        private readonly IMapper _mapper;
+        public ContactManager(IRepositoryManager contactService, IMapper mp)
         {
             _contactService = contactService;
+            _mapper = mp;
         }
 
         public async Task AddContactFromService(Contact category)
@@ -32,9 +35,11 @@ namespace Services.Services
             _contactService.Save();
         }
 
-        public async Task<IEnumerable<Contact>> GetAllContact(bool v)
+        public async Task<IEnumerable<ContactDto>> GetAllContact(bool v)
         {
-            return await _contactService.IContactRepository.GetAllContacts(v);
+            var x = await _contactService.IContactRepository.GetAllContacts(v);
+            var y = _mapper.Map<IEnumerable<ContactDto>>(x);
+            return y;
         }
 
         public async Task<Contact> GetContact(int id)

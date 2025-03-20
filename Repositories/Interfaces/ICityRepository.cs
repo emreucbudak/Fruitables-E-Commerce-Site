@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Repositories.Interfaces
 {
     public interface ICityRepository
     {
-        Task<IEnumerable<City>> GetAllCity(bool v);
+        Task<IEnumerable<CitiesDto>> GetAllCity(bool v);
     }
 }

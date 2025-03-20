@@ -31,7 +31,7 @@ namespace Services.Services
             _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp,_log));
             _commentService = new Lazy<ICommentService>(() => new CommentService(rp));
-            _contactService = new Lazy<IContactService>(() => new ContactManager(rp));
+            _contactService = new Lazy<IContactService>(() => new ContactManager(rp,map));
             _couponService = new Lazy<ICouponService>(() => new CouponService(rp));
             _ownProductsService = new Lazy<IOwnProductsService>(() => new OwnProductsManager(rp));
             _productService = new Lazy<IProductService>(() => new ProductsManager(rp));
@@ -41,7 +41,7 @@ namespace Services.Services
             weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp,map));
             _cartService = new Lazy<ICartService>(() => new CartManager(rp));
             cityService = new Lazy<ICityService>(() => new CityManager(rp));
-            countryService = new Lazy<ICountryService>(() => new CountryManager(rp));
+            countryService = new Lazy<ICountryService>(() => new CountryManager(rp,map));
 
 
         }

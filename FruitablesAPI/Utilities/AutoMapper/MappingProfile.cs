@@ -9,6 +9,10 @@ namespace FruitablesAPI.Utilities.AutoMapper
         public MappingProfile()
         {
             CreateMap<WeGivesDto, WeGives>();
+            CreateMap<Country,CountriesDto>();
+            CreateMap<City,CitiesDto>();
+            CreateMap<Contact,ContactDto>();
+
         }
     }
 }

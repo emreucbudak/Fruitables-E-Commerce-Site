@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Services.Interfaces
 {
     public interface ICountryService
     {
-        Task<IEnumerable<Country>> GetAll(bool v);    
+        Task<IEnumerable<CountriesDto>> GetAll(bool v);    
     }
 }

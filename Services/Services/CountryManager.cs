@@ -1,4 +1,6 @@
-﻿using Entities.Models;
+﻿using AutoMapper;
+using Entities.DTO;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -12,15 +14,20 @@ namespace Services.Services
     public class CountryManager : ICountryService
     {
         private readonly IRepositoryManager _rp;
+        private readonly IMapper _mp;
 
-        public CountryManager(IRepositoryManager rp)
+        public CountryManager(IRepositoryManager rp,IMapper mp)
         {
             _rp = rp;
+            _mp = mp;
         }
 
-        public async Task<IEnumerable<Country>> GetAll(bool v)
+        public async Task<IEnumerable<CountriesDto>> GetAll(bool v)
         {
-            return await _rp.countryRepository.GetAllCountry(v);
+            var x =  await _rp.countryRepository.GetAllCountry(v);
+            var y = _mp.Map<IEnumerable<CountriesDto>>(x);
+            return y;
+
         }
     }
 }

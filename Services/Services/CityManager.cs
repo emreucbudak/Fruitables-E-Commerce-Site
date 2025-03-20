@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -18,7 +19,7 @@ namespace Services.Services
             _rp = rp;
         }
 
-        public async Task<IEnumerable<City>> GetAll(bool v)
+        public async Task<IEnumerable<CitiesDto>> GetAll(bool v)
         {
             return await _rp.cityRepository.GetAllCity(v);
         }

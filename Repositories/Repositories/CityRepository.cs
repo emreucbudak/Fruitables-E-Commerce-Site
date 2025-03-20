@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
@@ -16,9 +17,17 @@ namespace Repositories.Repositories
         {
         }
 
-        public async Task<IEnumerable<City>> GetAllCity(bool v)
+        public async Task<IEnumerable<CitiesDto>> GetAllCity(bool v)
         {
-            return await GetAll(v).Include(c => c.Country).ToListAsync();
+            return await GetAll(v)
+                .Include(c => c.Country)
+                .Select(c => new CitiesDto
+                {
+                    CityName = c.CityName,
+                    PostCode = c.PostCode,
+                    CountryName = c.Country.CountryName 
+                })
+                .ToListAsync();
         }
     }
 }
