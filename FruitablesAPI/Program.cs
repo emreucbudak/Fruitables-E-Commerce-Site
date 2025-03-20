@@ -20,7 +20,7 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceItems();
 builder.Services.ConfigureLoggerService();
-
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 

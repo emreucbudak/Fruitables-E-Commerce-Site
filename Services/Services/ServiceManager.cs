@@ -1,4 +1,5 @@
-﻿using Repositories.Interfaces;
+﻿using AutoMapper;
+using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Services.Services
         private readonly Lazy<ICityService> cityService;
         private readonly Lazy<ICountryService> countryService;
 
-        public ServiceManager(IRepositoryManager rp,ILoggerService _log)
+        public ServiceManager(IRepositoryManager rp,ILoggerService _log,IMapper map)
         {
             _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp,_log));
@@ -37,7 +38,7 @@ namespace Services.Services
             _statsService = new Lazy<IStatsService>(() => new StatsManager(rp));
             _userService = new Lazy<IUserService>(() => new UserManager(rp));
             testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp));
-            weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp));
+            weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp,map));
             _cartService = new Lazy<ICartService>(() => new CartManager(rp));
             cityService = new Lazy<ICityService>(() => new CityManager(rp));
             countryService = new Lazy<ICountryService>(() => new CountryManager(rp));

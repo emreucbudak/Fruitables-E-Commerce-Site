@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -42,7 +43,7 @@ namespace Presentation.Controllers
         // PUT: api/WeGives/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWeGives(int id, WeGives weGives)
+        public async Task<IActionResult> PutWeGives(int id, WeGivesDto weGives)
         {
             await _context.WeGivesService.UpdateWeGives(id, weGives);
 
@@ -52,11 +53,11 @@ namespace Presentation.Controllers
         // POST: api/WeGives
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<WeGives>> PostWeGives(WeGives weGives)
+        public async Task<ActionResult<WeGives>> PostWeGives(WeGivesDto weGives)
         {
             await _context.WeGivesService.AddWeGives(weGives);
 
-            return CreatedAtAction("GetWeGives", new { id = weGives.Id }, weGives);
+            return NoContent();
         }
 
         // DELETE: api/WeGives/5

@@ -1,4 +1,6 @@
-﻿using Entities.Exceptions;
+﻿using AutoMapper;
+using Entities.DTO;
+using Entities.Exceptions;
 using Entities.Models;
 using Repositories.Interfaces;
 using Services.Interfaces;
@@ -13,15 +15,23 @@ namespace Services.Services
     public class WeGivesManager : IWeGivesService
     {
         private readonly IRepositoryManager _rp;
+        private readonly IMapper _mp;
 
-        public WeGivesManager(IRepositoryManager rp)
+        public WeGivesManager(IRepositoryManager rp,IMapper map)
         {
             _rp = rp;
+            _mp = map;
+
         }
 
-        public async Task AddWeGives(WeGives wegs)
+        public async Task AddWeGives(WeGivesDto wegs)
         {
-            await _rp.weGivesRepositories.AddWeGives(wegs);
+            if (wegs == null)
+            {
+                throw new WeGivesNotFoundExceptions(1);
+            }
+            var x = _mp.Map<WeGives>(wegs);
+            await _rp.weGivesRepositories.AddWeGives(x);
             _rp.Save();
         }
 
@@ -49,7 +59,7 @@ namespace Services.Services
             
         }
 
-        public async Task UpdateWeGives(int id , WeGives wegs)
+        public async Task UpdateWeGives(int id , WeGivesDto wegs)
         {
             var x = await GetWeGives(id, false);
             x.Title = wegs.Title;

@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace Services.Interfaces
 {
     public interface IWeGivesService
     {
-        Task AddWeGives(WeGives wegs);
+        Task AddWeGives(WeGivesDto wegs);
         Task RemoveWeGives(int weGives);
-        Task UpdateWeGives(int id , WeGives wegs);
+        Task UpdateWeGives(int id , WeGivesDto wegs);
         Task<IEnumerable<WeGives>> GetAllWeGives(bool v);
         Task<WeGives> GetWeGives(int id ,bool v);
     }
