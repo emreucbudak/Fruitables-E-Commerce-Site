@@ -13,7 +13,7 @@ namespace Services.Interfaces
         Task AddContactFromService(Contact category);
         Task DeleteContactFromService(int category);
         Task<IEnumerable<ContactDto>> GetAllContact(bool v);
-        Task<Contact> GetContact(int id);
-        Task UpdateContactFromService(int id ,Contact category);
+        Task<ContactDto> GetContact(int id);
+        Task UpdateContactFromService(int id ,ContactDto category);
     }
 }

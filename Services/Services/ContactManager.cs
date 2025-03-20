@@ -30,7 +30,9 @@ namespace Services.Services
 
         public async Task DeleteContactFromService(int category)
         {
-            var x= await GetContact(category);
+            var x = await GetContactById(category);
+
+
             await _contactService.IContactRepository.DeleteContact(x);
             _contactService.Save();
         }
@@ -42,24 +44,35 @@ namespace Services.Services
             return y;
         }
 
-        public async Task<Contact> GetContact(int id)
+        public async Task<ContactDto> GetContact(int id)
         {
             var x = await _contactService.IContactRepository.GetContactById(id,false);
             if (x == null)
             {
                 throw new ContactNotFoundExceptions(id);
             }
-            return x;
+            var y = _mapper.Map<ContactDto>(x);
+            return y;
         }
 
-        public async Task UpdateContactFromService(int id , Contact category)
+        public async Task UpdateContactFromService(int id , ContactDto category)
         {
-            var x = await GetContact(id);
+            var x = await GetContactById(id);
             x.Email = category.Email;
             x.Name = category.Name;
             x.Message = category.Message;
-            await _contactService.IContactRepository.UpdateContact(category);
+            await _contactService.IContactRepository.UpdateContact(x);
             _contactService.Save();
+        }
+        private async Task<Contact> GetContactById(int id)
+        {
+            var x = await _contactService.IContactRepository.GetContactById(id, false);
+            if (x == null)
+            {
+                throw new ContactNotFoundExceptions(id);
+            }
+            return x;
+
         }
     }
 }

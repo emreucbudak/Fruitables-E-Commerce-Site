@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -41,7 +42,7 @@ namespace Presentation.Controllers
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(int id, Contact contact)
+        public async Task<IActionResult> PutContact(int id, ContactDto contact)
         {
             await _context.ContactService.UpdateContactFromService(id,contact);
 
