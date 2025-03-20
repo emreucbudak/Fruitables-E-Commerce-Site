@@ -22,9 +22,10 @@ namespace Services.Services
             _mapper = mp;
         }
 
-        public async Task AddContactFromService(Contact category)
+        public async Task AddContactFromService(ContactDto category)
         {
-            await _contactService.IContactRepository.AddContact(category);
+             var x = _mapper.Map<Contact>(category);
+            await _contactService.IContactRepository.AddContact(x);
             _contactService.Save();
         }
 

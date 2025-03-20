@@ -10,7 +10,7 @@ namespace Services.Interfaces
 {
     public interface IContactService
     {
-        Task AddContactFromService(Contact category);
+        Task AddContactFromService(ContactDto category);
         Task DeleteContactFromService(int category);
         Task<IEnumerable<ContactDto>> GetAllContact(bool v);
         Task<ContactDto> GetContact(int id);

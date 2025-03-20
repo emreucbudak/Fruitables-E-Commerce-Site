@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Services.Interfaces
 {
     public interface ICouponService
     {
-        Task AddCouponFromService(Coupon cpn);
-        Task UpdateCouponFromService(int id , Coupon cpn);
+        Task AddCouponFromService(CouponDto cpn);
+        Task UpdateCouponFromService(int id , CouponDtoForUpdate cpn);
         Task DeleteCouponFromService(int cpn);
-        Task<IEnumerable<Coupon>> GetAllCoupons(bool v);
-        Task<Coupon> GetCoupons(int id , bool v);
+        Task<IEnumerable<CouponDto>> GetAllCoupons(bool v);
+        Task<CouponDto> GetCoupons(int id , bool v);
     }
 }

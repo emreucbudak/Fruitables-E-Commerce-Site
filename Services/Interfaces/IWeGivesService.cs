@@ -13,7 +13,7 @@ namespace Services.Interfaces
         Task AddWeGives(WeGivesDto wegs);
         Task RemoveWeGives(int weGives);
         Task UpdateWeGives(int id , WeGivesDto wegs);
-        Task<IEnumerable<WeGives>> GetAllWeGives(bool v);
-        Task<WeGives> GetWeGives(int id ,bool v);
+        Task<IEnumerable<WeGivesDto>> GetAllWeGives(bool v);
+        Task<WeGivesDto> GetWeGives(int id ,bool v);
     }
 }

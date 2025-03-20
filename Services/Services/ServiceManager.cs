@@ -32,12 +32,12 @@ namespace Services.Services
             _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp,_log));
             _commentService = new Lazy<ICommentService>(() => new CommentService(rp));
             _contactService = new Lazy<IContactService>(() => new ContactManager(rp,map));
-            _couponService = new Lazy<ICouponService>(() => new CouponService(rp));
+            _couponService = new Lazy<ICouponService>(() => new CouponService(rp,map));
             _ownProductsService = new Lazy<IOwnProductsService>(() => new OwnProductsManager(rp));
             _productService = new Lazy<IProductService>(() => new ProductsManager(rp));
             _statsService = new Lazy<IStatsService>(() => new StatsManager(rp));
             _userService = new Lazy<IUserService>(() => new UserManager(rp));
-            testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp));
+            testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp,map));
             weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp,map));
             _cartService = new Lazy<ICartService>(() => new CartManager(rp));
             cityService = new Lazy<ICityService>(() => new CityManager(rp));

@@ -13,6 +13,11 @@ namespace FruitablesAPI.Utilities.AutoMapper
             CreateMap<City,CitiesDto>();
             CreateMap<Contact,ContactDto>();
             CreateMap<ContactDto,Contact>();
+            CreateMap<CouponDto, Coupon>();
+            CreateMap<Coupon,CouponDto>();
+            CreateMap<WeGives, WeGivesDto>();
+            CreateMap<Testimonials,TestimonialsDto>();
+            CreateMap<TestimonialsDto,Testimonials>();  
 
         }
     }

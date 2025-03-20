@@ -52,11 +52,11 @@ namespace Presentation.Controllers
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostContact(Contact contact)
+        public async Task<ActionResult<Contact>> PostContact(ContactDto contact)
         {
             await _context.ContactService.AddContactFromService(contact);
 
-            return CreatedAtAction("GetContact", new { id = contact.Id }, contact);
+            return NoContent();
         }
 
         // DELETE: api/Contacts/5

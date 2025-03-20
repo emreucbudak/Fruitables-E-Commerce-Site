@@ -35,25 +35,28 @@ namespace Services.Services
             _rp.Save();
         }
 
-        public async Task<IEnumerable<WeGives>> GetAllWeGives(bool v)
+        public async Task<IEnumerable<WeGivesDto>> GetAllWeGives(bool v)
         {
-            return await _rp.weGivesRepositories.GetAllWeGives(v);
+            var x =  await _rp.weGivesRepositories.GetAllWeGives(v);
+            var y = _mp.Map<IEnumerable<WeGivesDto>>(x);
+            return y;
         }
 
-        public async Task<WeGives> GetWeGives(int id, bool v)
+        public async Task<WeGivesDto> GetWeGives(int id, bool v)
         {
             var x =  await _rp.weGivesRepositories.GetWeGives(id, v);
             if (x == null)
             {
                 throw new WeGivesNotFoundExceptions(id);
             }
-            return x;
+            var y = _mp.Map<WeGivesDto>(x);
+            return y;
 
         }
 
         public async Task RemoveWeGives(int weGives)
         {
-            var x = await GetWeGives(weGives,false);
+            var x = await GetWeGivesByIdAsnyc(weGives);
             await _rp.weGivesRepositories.RemoveWeGives(x);
             _rp.Save();
             
@@ -61,12 +64,21 @@ namespace Services.Services
 
         public async Task UpdateWeGives(int id , WeGivesDto wegs)
         {
-            var x = await GetWeGives(id, false);
+            var x = await GetWeGivesByIdAsnyc(id);
             x.Title = wegs.Title;
             x.Description = wegs.Description;
             x.ImgUrl = wegs.ImgUrl;
             await _rp.weGivesRepositories.UpdateWeGives(x);
             _rp.Save();
         }
-    }
+        private async Task<WeGives> GetWeGivesByIdAsnyc(int id)
+        {
+            var x = await _rp.weGivesRepositories.GetWeGives(id,false);
+            if (x == null)
+            {
+                throw new WeGivesNotFoundExceptions(id);
+            }
+            return x;
+        }
+        }
 }

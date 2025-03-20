@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -24,7 +25,7 @@ namespace Presentation.Controllers
 
         // GET: api/Coupons
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Coupon>>> GetCoupons()
+        public async Task<ActionResult<IEnumerable<CouponDto>>> GetCoupons()
         {
             var x = await  _context.CouponService.GetAllCoupons(false);
             return Ok(x);
@@ -32,7 +33,7 @@ namespace Presentation.Controllers
 
         // GET: api/Coupons/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Coupon>> GetCoupon(int id)
+        public async Task<ActionResult<CouponDto>> GetCoupon(int id)
         {
             var x = await _context.CouponService.GetCoupons(id,false);
             return Ok(x);
@@ -41,7 +42,7 @@ namespace Presentation.Controllers
         // PUT: api/Coupons/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCoupon(int id, Coupon coupon)
+        public async Task<IActionResult> PutCoupon(int id, CouponDtoForUpdate coupon)
         {
             await _context.CouponService.UpdateCouponFromService(id, coupon);
 
@@ -51,10 +52,10 @@ namespace Presentation.Controllers
         // POST: api/Coupons
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Coupon>> PostCoupon(Coupon coupon)
+        public async Task<ActionResult<Coupon>> PostCoupon(CouponDto coupon)
         {
             await _context.CouponService.AddCouponFromService(coupon);
-            return CreatedAtAction("GetCoupon", new { id = coupon.Id }, coupon);
+            return NoContent();
         }
 
         // DELETE: api/Coupons/5

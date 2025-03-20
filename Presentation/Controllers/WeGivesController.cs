@@ -25,7 +25,7 @@ namespace Presentation.Controllers
 
         // GET: api/WeGives
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WeGives>>> GetWeGives()
+        public async Task<ActionResult<IEnumerable<WeGivesDto>>> GetWeGives()
         {
             var x = await _context.WeGivesService.GetAllWeGives(false);
             return Ok(x);
@@ -33,7 +33,7 @@ namespace Presentation.Controllers
 
         // GET: api/WeGives/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WeGives>> GetWeGives(int id)
+        public async Task<ActionResult<WeGivesDto>> GetWeGives(int id)
         {
             var weGives = await _context.WeGivesService.GetWeGives(id,false);
 
