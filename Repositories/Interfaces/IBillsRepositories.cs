@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Repositories.Interfaces
         Task AddBills(Bills bil);
         Task DeleteBills(Bills bil);
         Task UpdateBills(Bills bil);
-        Task<Bills> GetBillsByID(int id,bool v);
-        Task<IEnumerable<Bills>> GetAllBills(bool v);
+        Task<BillsDtoForList> GetBillsByID(int id,bool v);
+        Task<IEnumerable<BillsDtoForList>> GetAllBills(bool v);
+        Task<Bills> GetBillsAndCheck(int id , bool v);
     }
 }

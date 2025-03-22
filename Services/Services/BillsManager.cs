@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using FruitablesAPI.Exceptions;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Repositories.Interfaces;
@@ -29,12 +30,12 @@ namespace Services.Services
             _rp.Save();
         }
 
-        public async Task<IEnumerable<Bills>> GetAllBillsFromService(bool v)
+        public async Task<IEnumerable<BillsDtoForList>> GetAllBillsFromService(bool v)
         {
-           return  await _rp.IBillsRepositories.GetAllBills(v);
+           return   await _rp.IBillsRepositories.GetAllBills(v);
         }
 
-        public async Task<Bills> GetBillsFromService(int billsId)
+        public async Task<BillsDtoForList> GetBillsFromService(int billsId)
         {
             var x =  await _rp.IBillsRepositories.GetBillsByID(billsId,false);
             if (x == null)
@@ -46,7 +47,7 @@ namespace Services.Services
 
         public async Task<Bills> RemoveBillsFromService(int billsId)
         {
-            var x = await GetBillsFromService(billsId);
+            var x = await GetBillsAndCheck(billsId);
             await _rp.IBillsRepositories.DeleteBills(x);
             _rp.Save();
             return x;
@@ -55,7 +56,7 @@ namespace Services.Services
 
         public async Task<Bills> UpdateBillsFromService(int id , Bills bills)
         {
-            var x = await GetBillsFromService(id);
+            var x = await GetBillsAndCheck(id);
 
             x.FirstName = bills.FirstName;
             x.LastName = bills.LastName;
@@ -70,6 +71,16 @@ namespace Services.Services
             await _rp.IBillsRepositories.UpdateBills(x);
             _rp.Save();
             return x;
+        }
+        private async Task<Bills> GetBillsAndCheck(int id)
+        {
+            var x = await _rp.IBillsRepositories.GetBillsAndCheck(id, false);
+            if (x == null)
+            {
+                throw new BillsNotFoundExceptions(id);
+            }
+            return x;
+            
         }
     }
 }

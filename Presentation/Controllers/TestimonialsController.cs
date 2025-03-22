@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -42,7 +43,7 @@ namespace Presentation.Controllers
         // PUT: api/Testimonials/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTestimonials(int id, Testimonials testimonials)
+        public async Task<IActionResult> PutTestimonials(int id, TestimonialsDto testimonials)
         {
             await _context.TestimonialService.UpdateTestimonial(id, testimonials);
 
@@ -52,11 +53,11 @@ namespace Presentation.Controllers
         // POST: api/Testimonials
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Testimonials>> PostTestimonials(Testimonials testimonials)
+        public async Task<ActionResult<Testimonials>> PostTestimonials(TestimonialsDto testimonials)
         {
             await _context.TestimonialService.AddTestimonial(testimonials);
 
-            return CreatedAtAction("GetTestimonials", new { id = testimonials.Id }, testimonials);
+            return NoContent();
         }
 
         // DELETE: api/Testimonials/5

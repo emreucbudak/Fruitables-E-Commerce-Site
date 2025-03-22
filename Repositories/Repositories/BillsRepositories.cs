@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
@@ -27,14 +28,51 @@ namespace Repositories.Repositories
             await Delete(bil);
         }
 
-        public async Task<IEnumerable<Bills>> GetAllBills(bool v)
+        public async Task<IEnumerable<BillsDtoForList>> GetAllBills(bool v)
         {
-            return await GetAll(v).ToListAsync();
+            return await GetAll(v)
+                .Include(c => c.User)
+                .Select(c => new BillsDtoForList
+                {
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    UserName = c.User.Name,
+                    CompanyName = c.CompanyName,
+                    Adress = c.Adress,
+                    City = c.City,
+                    Country = c.Country,
+                    PostCode = c.PostCode,
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.Email,
+                    OrderNotes = c.OrderNotes
+                }).ToListAsync();
         }
 
-        public async Task<Bills> GetBillsByID(int id, bool v)
+        public async Task<Bills> GetBillsAndCheck(int id, bool v)
         {
-            return await GetById(b=> b.Id == id,v);
+            return await GetById(b=> b.Id == id, v);
+        }
+
+        public async Task<BillsDtoForList> GetBillsByID(int id, bool v)
+        {
+            return await GetAll(v)
+                .Where(b => b.Id == id)
+                .Include(b => b.User)
+                .Select(b => new BillsDtoForList
+                {
+                    FirstName = b.FirstName,
+                    LastName = b.LastName,
+                    UserName = b.User.Name,
+                    CompanyName = b.CompanyName,
+                    Adress = b.Adress,
+                    City = b.City,
+                    Country = b.Country,
+                    PostCode = b.PostCode,
+                    PhoneNumber = b.PhoneNumber,
+                    Email = b.Email,
+                    OrderNotes = b.OrderNotes
+                })
+                .FirstOrDefaultAsync();
         }
 
         public async Task UpdateBills(Bills bil)

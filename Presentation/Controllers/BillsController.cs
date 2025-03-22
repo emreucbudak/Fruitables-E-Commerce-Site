@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -24,7 +25,7 @@ namespace Presentation.Controllers
 
         // GET: api/Bills
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        public async Task<ActionResult<IEnumerable<BillsDtoForList>>> GetBills()
         {
             var x =  await _context.BillsService.GetAllBillsFromService(false);
             return Ok(x);
@@ -33,7 +34,7 @@ namespace Presentation.Controllers
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        public async Task<ActionResult<BillsDtoForList>> GetBills(int id)
         {
             var x = await _context.BillsService.GetBillsFromService(id);
             return Ok(x);

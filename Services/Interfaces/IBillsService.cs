@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace Services.Interfaces
         Task AddBillsFromService(Bills bil);
         Task <Bills>RemoveBillsFromService(int billsId);
         Task <Bills>UpdateBillsFromService(int id , Bills bills);
-        Task<IEnumerable<Bills>> GetAllBillsFromService(bool v);
-        Task<Bills> GetBillsFromService(int billsId);
+        Task<IEnumerable<BillsDtoForList>> GetAllBillsFromService(bool v);
+        Task<BillsDtoForList> GetBillsFromService(int billsId);
 
     }
 }
