@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DTO
 {
-    public sealed record BillsDtoForList : BillsDtoForManipulation
+    public sealed record BillsDtoForInsert : BillsDtoForManipulation
     {
 
-        public string UserName { get; init; }
- 
+
+        public int UserID { get; init; }
+
     }
 }

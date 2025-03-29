@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -24,7 +25,7 @@ namespace Presentation.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDtoForList>>> GetProducts()
         {
            var x = _context.ProductService.GetAllProducts(false);
             return Ok(x);
@@ -32,7 +33,7 @@ namespace Presentation.Controllers
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Products>> GetProducts(int id)
+        public async Task<ActionResult<ProductDtoForList>> GetProducts(int id)
         {
             var x = await _context.ProductService.GetProductById(id,false);
             return Ok(x);
@@ -41,7 +42,7 @@ namespace Presentation.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProducts(int id, Products products)
+        public async Task<IActionResult> PutProducts(int id, ProductDtoForUpdate products)
         {
             await _context.ProductService.UpdateProductFromService(id, products);
 
@@ -51,11 +52,11 @@ namespace Presentation.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Products>> PostProducts(Products products)
+        public async Task<ActionResult<ProductDtoForInsert>> PostProducts(ProductDtoForInsert products)
         {
             await _context.ProductService.AddProductFromService(products);
 
-            return CreatedAtAction("GetProducts", new { id = products.ProductId }, products);
+            return NoContent();
         }
 
         // DELETE: api/Products/5

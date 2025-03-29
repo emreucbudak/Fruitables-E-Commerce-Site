@@ -1,4 +1,5 @@
-﻿using Entities.DTO;
+﻿using AutoMapper;
+using Entities.DTO;
 using Entities.Models;
 using FruitablesAPI.Exceptions;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -16,17 +17,20 @@ namespace Services.Services
     {
         private readonly IRepositoryManager _rp;
         private readonly ILoggerService _lg;
+        private readonly IMapper _mapper;
 
-        public BillsManager(IRepositoryManager rp,ILoggerService _log)
+        public BillsManager(IRepositoryManager rp, ILoggerService _log, IMapper map)
         {
             _rp = rp;
             _lg = _log;
+            _mapper = map;
         }
 
-        public async Task AddBillsFromService(Bills bil)
+        public async Task AddBillsFromService(BillsDtoForInsert bil)
         {
 
-            await _rp.IBillsRepositories.AddBills(bil);
+            var x = _mapper.Map<Bills>(bil);
+            await _rp.IBillsRepositories.AddBills(x);
             _rp.Save();
         }
 
@@ -54,7 +58,7 @@ namespace Services.Services
 
         }
 
-        public async Task<Bills> UpdateBillsFromService(int id , Bills bills)
+        public async Task<Bills> UpdateBillsFromService(int id , BillsDtoForUpdate bills)
         {
             var x = await GetBillsAndCheck(id);
 

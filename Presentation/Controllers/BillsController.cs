@@ -43,7 +43,7 @@ namespace Presentation.Controllers
         // PUT: api/Bills/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id , Bills bills)
+        public async Task<IActionResult> PutBills(int id , BillsDtoForUpdate bills)
         {
             await _context.BillsService.UpdateBillsFromService(id, bills);
             return NoContent();
@@ -52,11 +52,11 @@ namespace Presentation.Controllers
         // POST: api/Bills
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult<BillsDtoForInsert>> PostBills(BillsDtoForInsert bills)
         {
             await _context.BillsService.AddBillsFromService(bills);
 
-            return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
+            return NoContent();
         }
 
         // DELETE: api/Bills/5

@@ -10,9 +10,9 @@ namespace Services.Interfaces
 {
     public interface IBillsService
     {
-        Task AddBillsFromService(Bills bil);
+        Task AddBillsFromService(BillsDtoForInsert bil);
         Task <Bills>RemoveBillsFromService(int billsId);
-        Task <Bills>UpdateBillsFromService(int id , Bills bills);
+        Task <Bills>UpdateBillsFromService(int id , BillsDtoForUpdate bills);
         Task<IEnumerable<BillsDtoForList>> GetAllBillsFromService(bool v);
         Task<BillsDtoForList> GetBillsFromService(int billsId);
 

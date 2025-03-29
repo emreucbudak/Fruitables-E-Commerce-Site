@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
@@ -26,12 +27,41 @@ namespace Repositories.Repositories
             await Delete(product);
         }
 
-        public async Task<IEnumerable<Products>> GetAllProducts(bool v)
+        public async Task<IEnumerable<ProductDtoForList>> GetAllProducts(bool v)
         {
-            return await GetAll(v).ToListAsync();
+            return await GetAll(v)
+                .Include(c => c.Category)
+                .Select(c => new ProductDtoForList
+                {
+                    Name = c.Name,
+                    Description = c.Description,
+                    Price = c.Price,
+                    Ratio = c.Ratio,
+                    Quentity = c.Quentity,
+                    IsExpired = c.IsExpired,
+                    IsDiscount = c.IsDiscount,
+                    ImgUrl = c.ImgUrl,
+                    CategoryName = c.Category.CategoryName
+                })
+                .ToListAsync();
         }
 
-        public async Task<Products> GetProductsById(int id, bool v)
+        public async Task<ProductDtoForList> GetProductsById(int id, bool v)
+        {
+            return await GetAll(v).Where(b=> b.ProductId == id).Include(c=> c.Category).Select(c => new ProductDtoForList
+            {
+                Name = c.Name,
+                Description = c.Description,
+                Price = c.Price,
+                Ratio = c.Ratio,
+                Quentity = c.Quentity,
+                IsExpired = c.IsExpired,
+                IsDiscount = c.IsDiscount,
+                ImgUrl = c.ImgUrl,
+                CategoryName = c.Category.CategoryName
+            }).FirstOrDefaultAsync();
+        }
+        public async Task <Products> GetProductsAndCheck(int id , bool v)
         {
             return await GetById(b => b.ProductId == id, v);
         }

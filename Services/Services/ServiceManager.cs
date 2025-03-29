@@ -28,13 +28,13 @@ namespace Services.Services
 
         public ServiceManager(IRepositoryManager rp,ILoggerService _log,IMapper map)
         {
-            _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log));
+            _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log,map));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp,_log));
             _commentService = new Lazy<ICommentService>(() => new CommentService(rp));
             _contactService = new Lazy<IContactService>(() => new ContactManager(rp,map));
             _couponService = new Lazy<ICouponService>(() => new CouponService(rp,map));
             _ownProductsService = new Lazy<IOwnProductsService>(() => new OwnProductsManager(rp));
-            _productService = new Lazy<IProductService>(() => new ProductsManager(rp));
+            _productService = new Lazy<IProductService>(() => new ProductsManager(rp,map));
             _statsService = new Lazy<IStatsService>(() => new StatsManager(rp));
             _userService = new Lazy<IUserService>(() => new UserManager(rp));
             testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp,map));

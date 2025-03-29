@@ -17,7 +17,11 @@ namespace FruitablesAPI.Utilities.AutoMapper
             CreateMap<Coupon,CouponDto>();
             CreateMap<WeGives, WeGivesDto>();
             CreateMap<Testimonials,TestimonialsDto>();
-            CreateMap<TestimonialsDto,Testimonials>();  
+            CreateMap<TestimonialsDto,Testimonials>();
+            CreateMap<BillsDtoForList, Bills>();
+            CreateMap<BillsDtoForInsert, Bills>();
+            CreateMap<ProductDtoForInsert, Products>();
+            CreateMap<ProductDtoForList,Products>();
 
         }
     }
