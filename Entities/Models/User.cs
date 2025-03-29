@@ -12,13 +12,13 @@ namespace Entities.Models
         public string Name { get; set; }
 
         public string Email { get; set; }
-        public string ProfilePhoto { get; set; }
+        public string? ProfilePhoto { get; set; }
 
         public string Password { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Bills> Bills { get; set; }
-        public ICollection<Order> Order { get; set; }
-        public Cart Cart { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
+        public ICollection<Bills>? Bills { get; set; }
+        public ICollection<Order>? Order { get; set; }
+        public Cart? Cart { get; set; }
         
     }
 }

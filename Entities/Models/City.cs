@@ -14,5 +14,5 @@ namespace Entities.Models
         public int CountryID { get; set; }
         public Country Country { get; set; }
 
-    }
+    } 
 }

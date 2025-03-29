@@ -17,7 +17,7 @@ namespace Services.Services
         private readonly IRepositoryManager _productService;
         private readonly IMapper _mapper;
 
-        public ProductsManager(IRepositoryManager productService, IMapper map, IMapper mapper)
+        public ProductsManager(IRepositoryManager productService,  IMapper mapper)
         {
             _productService = productService;
             _mapper = mapper;
@@ -61,6 +61,7 @@ namespace Services.Services
             {
                 throw new ProductsNotFoundExceptions(id);
             }
+            
             return x;
         }
 

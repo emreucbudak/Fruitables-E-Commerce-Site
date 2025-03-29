@@ -36,7 +36,7 @@ namespace Services.Services
             _ownProductsService = new Lazy<IOwnProductsService>(() => new OwnProductsManager(rp));
             _productService = new Lazy<IProductService>(() => new ProductsManager(rp,map));
             _statsService = new Lazy<IStatsService>(() => new StatsManager(rp));
-            _userService = new Lazy<IUserService>(() => new UserManager(rp));
+            _userService = new Lazy<IUserService>(() => new UserManager(rp,map));
             testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp,map));
             weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp,map));
             _cartService = new Lazy<ICartService>(() => new CartManager(rp));

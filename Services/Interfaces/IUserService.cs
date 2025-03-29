@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace Services.Interfaces
 {
     public interface IUserService
     {
-        Task RegisterUser(User user);
+        Task RegisterUser(UserDtoForInsert user);
         Task DeleteUser(int user);
-        Task<IEnumerable<User>> GetAllUsers(bool v);
-        Task<User> GetUserById(int id);
-        Task UpdateUser(int id , User user);
+        Task<IEnumerable<UserDtoForList>> GetAllUsers(bool v);
+        Task<UserDtoForList> GetUserById(int id);
+        Task UpdateUser(int id , UserDtoForUpdate user);
+        Task<User> CheckUserFromService(int id, bool v);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
@@ -26,14 +27,31 @@ namespace Repositories.Repositories
             await Delete(user);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers(bool v)
+        public async Task<IEnumerable<UserDtoForList>> GetAllUsers(bool v)
         {
-            return await GetAll(v).ToListAsync();
+            return await GetAll(v)
+                .Select(c => new UserDtoForList
+                {
+                    Email = c.Email,
+                    Name = c.Name,
+                    Password = c.Password,
+                })
+                .ToListAsync();  // Asynchronous işlem
+        }
+        public async Task<User> CheckUser (int id , bool v )
+        {
+            return await GetById(b => b.UserID == id , v);
         }
 
-        public async Task<User> GetUsers(int id, bool v)
+        public async Task<UserDtoForList> GetUsers(int id, bool v)
         {
-            return await GetById(b => b.UserID == id, v);
+            return await GetAll(v)
+                .Select(c => new UserDtoForList
+                {
+                    Email = c.Email,
+                    Name = c.Name,
+                    Password = c.Password,
+                }).FirstOrDefaultAsync();
         }
 
         public async Task UpdateUser(User user)

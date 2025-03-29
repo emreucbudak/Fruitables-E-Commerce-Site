@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DTO;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Repositories.Interfaces
         Task AddUser(User user);
         Task UpdateUser(User user);
         Task DeleteUser(User user);
-        Task<IEnumerable<User>> GetAllUsers(bool v);
-        Task<User> GetUsers(int id , bool v);
+        Task<IEnumerable<UserDtoForList>> GetAllUsers(bool v);
+        Task<UserDtoForList> GetUsers(int id , bool v);
+        Task<User> CheckUser(int id, bool v);
     }
 }

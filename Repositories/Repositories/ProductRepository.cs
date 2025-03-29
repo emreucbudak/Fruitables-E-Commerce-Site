@@ -61,14 +61,16 @@ namespace Repositories.Repositories
                 CategoryName = c.Category.CategoryName
             }).FirstOrDefaultAsync();
         }
-        public async Task <Products> GetProductsAndCheck(int id , bool v)
-        {
-            return await GetById(b => b.ProductId == id, v);
-        }
+
 
         public async Task UpdateProduct(Products product)
         {
             await UpdateProduct(product);
+        }
+
+        public async Task<Products> GetProductAndCheck(int id, bool v)
+        {
+            return await GetById(b => b.ProductId == id, v);
         }
     }
 }

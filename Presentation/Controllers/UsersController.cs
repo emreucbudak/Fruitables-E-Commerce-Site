@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Entities.DTO;
 
 namespace Presentation.Controllers
 {
@@ -24,7 +25,7 @@ namespace Presentation.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDtoForList>>> GetUsers()
         {
             var x = await _context.UserService.GetAllUsers(false);
             return Ok(x);
@@ -32,7 +33,7 @@ namespace Presentation.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDtoForList>> GetUser(int id)
         {
             var user = await _context.UserService.GetUserById(id);
 
@@ -42,7 +43,7 @@ namespace Presentation.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UserDtoForUpdate user)
         {
             await _context.UserService.UpdateUser(id, user);
 
@@ -52,10 +53,10 @@ namespace Presentation.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserDtoForInsert>> PostUser(UserDtoForInsert user)
         {
             await _context.UserService.RegisterUser(user);
-            return CreatedAtAction("GetUser", new { id = user.UserID }, user);
+            return NoContent();
         }
 
         // DELETE: api/Users/5
