@@ -2,10 +2,12 @@
 using Entities.DTO;
 using Entities.Exceptions;
 using Entities.Models;
+using FluentValidation;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +18,13 @@ namespace Services.Services
     {
         private readonly IRepositoryManager _mng;
         private readonly IMapper _mp;
+        private readonly IValidator<UserDtoForManipulation> uservalidator;
 
-        public UserManager(IRepositoryManager mng, IMapper map)
+        public UserManager(IRepositoryManager mng, IMapper map, IValidator<UserDtoForManipulation> userDtoValidator)
         {
             _mng = mng;
             _mp = map;
+            uservalidator= userDtoValidator;
         }
 
         public async Task<User> CheckUserFromService(int id, bool v)
@@ -59,6 +63,11 @@ namespace Services.Services
 
         public async Task RegisterUser(UserDtoForInsert user)
         {
+            var validateResult = uservalidator.Validate(user);
+            if (!validateResult.IsValid)
+            {
+                throw new UserValidationException();
+            }
             var x = _mp.Map<User>(user);
             await _mng.userRepositories.AddUser(x);
             _mng.Save();

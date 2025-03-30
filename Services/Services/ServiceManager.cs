@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Entities.DTO;
+using FluentValidation;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -26,7 +28,7 @@ namespace Services.Services
         private readonly Lazy<ICityService> cityService;
         private readonly Lazy<ICountryService> countryService;
 
-        public ServiceManager(IRepositoryManager rp,ILoggerService _log,IMapper map)
+        public ServiceManager(IRepositoryManager rp,ILoggerService _log,IMapper map, IValidator<UserDtoForManipulation> userDtoValidator)
         {
             _serviceProvider = new Lazy<IBillsService>(() => new BillsManager(rp,_log,map));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryManager(rp,_log));
@@ -36,7 +38,7 @@ namespace Services.Services
             _ownProductsService = new Lazy<IOwnProductsService>(() => new OwnProductsManager(rp));
             _productService = new Lazy<IProductService>(() => new ProductsManager(rp,map));
             _statsService = new Lazy<IStatsService>(() => new StatsManager(rp));
-            _userService = new Lazy<IUserService>(() => new UserManager(rp,map));
+            _userService = new Lazy<IUserService>(() => new UserManager(rp,map,userDtoValidator));
             testimonialService = new Lazy<ITestimonialService>(() => new TestimonialManager(rp,map));
             weGivesService = new Lazy<IWeGivesService>(() => new WeGivesManager(rp,map));
             _cartService = new Lazy<ICartService>(() => new CartManager(rp));

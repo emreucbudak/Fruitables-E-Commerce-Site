@@ -19,6 +19,7 @@ namespace FruitablesAPI.Extensions
                         context.Response.StatusCode = feature.Error switch
                         {
                             NotFoundExceptions => StatusCodes.Status404NotFound,
+                            ValidationResultExceptions => StatusCodes.Status400BadRequest,
                             _ => StatusCodes.Status500InternalServerError
                         };
                         _lg.LogError($"Something went wrong {feature.Error}");

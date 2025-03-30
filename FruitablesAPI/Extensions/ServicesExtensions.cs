@@ -1,9 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.AspNetCore;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
 using Repositories.Repositories;
 using Services.Interfaces;
 using Services.Services;
+using System.Reflection;
+using System;
+using Entities.DTO;
+using Entities.Validators;
 
 namespace FruitablesAPI.Extensions
 {
@@ -60,6 +66,17 @@ namespace FruitablesAPI.Extensions
         public static void ConfigureLoggerService(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ILoggerService,LoggerManager>();
+        }
+
+        public static void ConfigureFluentValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation(); // Otomatik validasyon desteği
+            services.AddFluentValidationClientsideAdapters(); // İstemci tarafı validasyon desteği
+
+            // Tüm Validatorları bulup otomatik olarak ekler
+            services.AddValidatorsFromAssembly(Assembly.Load("Entities"));
+            services.AddScoped<IValidator<UserDtoForManipulation>, UserValidator>();
+            services.AddValidatorsFromAssemblyContaining<UserValidator>();
         }
 
 
