@@ -66,8 +66,10 @@ namespace Services.Services
             var validateResult = uservalidator.Validate(user);
             if (!validateResult.IsValid)
             {
-                throw new UserValidationException();
+                var errorMessages = validateResult.Errors.Select(c => c.ErrorMessage).ToList(); // Hata mesajlarını listeye al
+                throw new UserValidationException(errorMessages); // Listeyi exception olarak fırlat
             }
+
             var x = _mp.Map<User>(user);
             await _mng.userRepositories.AddUser(x);
             _mng.Save();

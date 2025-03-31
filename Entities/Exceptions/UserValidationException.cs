@@ -8,8 +8,13 @@ namespace Entities.Exceptions
 {
     public sealed class UserValidationException : ValidationResultExceptions
     {
-        public UserValidationException() : base("Kaydolma başarısız!")
+        public List<string> ErrorMessages { get; }
+
+        public UserValidationException(List<string> errors)
+            : base($"{string.Join("\r\n", errors)} \n hatalarından dolayı Kaydolma başarısız!")
         {
+            ErrorMessages = errors;
         }
     }
 }
+
