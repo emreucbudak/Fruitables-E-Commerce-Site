@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.DTO
 {
-    internal class CommentDtoForManipulation
+    public abstract record CommentDtoForManipulation
     {
+        public int Ratio { get; init; }
+        public string Text { get; init; }
+
     }
 }
