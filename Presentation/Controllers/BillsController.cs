@@ -9,6 +9,7 @@ using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
 using Entities.DTO;
+using Presentation.ActionFilters;
 
 namespace Presentation.Controllers
 {
@@ -51,6 +52,7 @@ namespace Presentation.Controllers
 
         // POST: api/Bills
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<ActionResult<BillsDtoForInsert>> PostBills(BillsDtoForInsert bills)
         {

@@ -9,11 +9,13 @@ using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
 using Entities.DTO;
+using Presentation.ActionFilters;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilterAttribute))]
     public class ProductsController : ControllerBase
     {
         private readonly IServiceManager _context;
@@ -27,7 +29,7 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDtoForList>>> GetProducts()
         {
-           var x = _context.ProductService.GetAllProducts(false);
+           var x = await _context.ProductService.GetAllProducts(false);
             return Ok(x);
         }
 
@@ -52,6 +54,7 @@ namespace Presentation.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<ActionResult<ProductDtoForInsert>> PostProducts(ProductDtoForInsert products)
         {
             await _context.ProductService.AddProductFromService(products);

@@ -10,6 +10,7 @@ using System.Reflection;
 using System;
 using Entities.DTO;
 using Entities.Validators;
+using Presentation.ActionFilters;
 
 namespace FruitablesAPI.Extensions
 {
@@ -77,6 +78,11 @@ namespace FruitablesAPI.Extensions
             services.AddValidatorsFromAssembly(Assembly.Load("Entities"));
             services.AddScoped<IValidator<UserDtoForManipulation>, UserValidator>();
             services.AddValidatorsFromAssemblyContaining<UserValidator>();
+        }
+        public static void ConfigureActionFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddSingleton<LogFilterAttribute>();
         }
 
 

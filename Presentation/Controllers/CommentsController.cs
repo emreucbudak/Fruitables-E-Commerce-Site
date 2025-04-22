@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Presentation.ActionFilters;
 
 namespace Presentation.Controllers
 {
@@ -31,6 +32,7 @@ namespace Presentation.Controllers
         }
 
         // GET: api/Comments/5
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(int id)
         {

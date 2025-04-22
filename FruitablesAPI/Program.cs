@@ -1,6 +1,8 @@
 using FruitablesAPI.Extensions;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using Presentation.ActionFilters;
+
 using Repositories.Context;
 using Services.Interfaces;
 
@@ -22,6 +24,7 @@ builder.Services.ConfigureServiceItems();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureFluentValidation();
+builder.Services.ConfigureActionFilters();
 
 
 

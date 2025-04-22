@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
+using Presentation.ActionFilters;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilterAttribute))]
     public class CartsController : ControllerBase
     {
         private readonly IServiceManager _context;
@@ -52,6 +54,7 @@ namespace Presentation.Controllers
         // POST: api/Carts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
             await _context.CartService.AddCartFromService(cart);

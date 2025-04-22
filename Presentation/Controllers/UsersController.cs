@@ -9,11 +9,13 @@ using Entities.Models;
 using Repositories.Context;
 using Services.Interfaces;
 using Entities.DTO;
+using Presentation.ActionFilters;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilterAttribute))]
     public class UsersController : ControllerBase
     {
         private readonly IServiceManager _context;
@@ -53,6 +55,7 @@ namespace Presentation.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<ActionResult<UserDtoForInsert>> PostUser(UserDtoForInsert user)
         {
             await _context.UserService.RegisterUser(user);
