@@ -28,13 +28,16 @@ namespace Repositories.Repositories
             await Delete(product);
         }
 
-        public async Task<PagedList<Products>> GetAllProducts(ProductParameters prdct , bool v)
+        public async Task<PagedList<Products>> GetAllProducts(ProductParameters prdct, bool v)
         {
             var page = await GetAll(v)
-                .Include(c => c.Category)
-                .OrderBy(c => c.ProductId)
-                .ToListAsync();
-            return PagedList<Products>.ToPagedList(page , prdct.PageNumber , prdct.PageSize);
+                .FilterProducts(prdct.MaxPrice,prdct.MinPrice)
+                .SearchProducts(prdct.ProductName)
+                .Include(c => c.Category)  // Category'yi dahil ediyoruz
+                .OrderBy(c => c.ProductId)  // Ürünleri ProductId'ye göre sıralıyoruz
+                .ToListAsync();  // Veriyi asenkron şekilde çekiyoruz
+
+            return PagedList<Products>.ToPagedList(page, prdct.PageNumber, prdct.PageSize);
         }
 
         public async Task<ProductDtoForList> GetProductsById(int id, bool v)

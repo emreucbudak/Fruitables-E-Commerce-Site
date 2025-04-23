@@ -862,3 +862,15 @@
 2025-04-23 16:12:31.5788 Info Configuration initialized.
 2025-04-23 16:12:32.5316 Info AppDomain Shutting down. LogFactory closing...
 2025-04-23 16:12:32.5316 Info LogFactory has been closed.
+2025-04-23 17:40:24.2842 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-04-23 17:40:24.2952 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-04-23 17:40:24.2952 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
+2025-04-23 17:40:24.2952 Info Configuration initialized.
+2025-04-23 17:40:46.3366 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-04-23 17:40:46.3478 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-04-23 17:40:46.3478 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
+2025-04-23 17:40:46.3658 Info Configuration initialized.
+2025-04-23 17:51:07.2217 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-04-23 17:51:07.2305 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-04-23 17:51:07.2368 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
+2025-04-23 17:51:07.2368 Info Configuration initialized.

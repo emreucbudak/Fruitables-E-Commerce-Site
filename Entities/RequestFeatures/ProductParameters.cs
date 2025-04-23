@@ -11,5 +11,6 @@ namespace Entities.RequestFeatures
         public uint MinPrice { get; set; }
         public uint MaxPrice { get; set; } = 1000;
         public bool Control => MinPrice < MaxPrice;
+        public string ProductName { get; set; }
     }
 }

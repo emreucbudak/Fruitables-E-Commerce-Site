@@ -51,6 +51,10 @@ namespace Services.Services
 
         public async Task<(IEnumerable<ProductDtoForList> booksDto, MetaData mt)> GetAllProducts(ProductParameters prdct, bool v)
         {
+            if (!prdct.Control)
+            {
+                throw new PriceBadRequestExceptions();
+            }
             var x =  await _productService.products.GetAllProducts(prdct,v);
             var d = _mapper.Map<IEnumerable<ProductDtoForList>>(x);
 

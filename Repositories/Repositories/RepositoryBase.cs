@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
 using System;
@@ -44,6 +45,10 @@ namespace Repositories.Repositories
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();
+        }
+        public IQueryable<T> GetByConditionToPaged(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().Where(predicate); // Koşula uyan veriyi döndürür
         }
     }
 }
