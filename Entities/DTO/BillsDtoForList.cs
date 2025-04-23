@@ -10,6 +10,7 @@ namespace Entities.DTO
     {
 
         public string UserName { get; init; }
- 
+        public string CreatedAt { get; init; }
+
     }
 }

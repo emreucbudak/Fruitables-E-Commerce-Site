@@ -44,7 +44,8 @@ namespace Repositories.Repositories
                     PostCode = c.PostCode,
                     PhoneNumber = c.PhoneNumber,
                     Email = c.Email,
-                    OrderNotes = c.OrderNotes
+                    OrderNotes = c.OrderNotes,
+                    CreatedAt = c.CreatedAt.ToString("dd.MM.yyyy HH:mm")
                 }).ToListAsync();
         }
 

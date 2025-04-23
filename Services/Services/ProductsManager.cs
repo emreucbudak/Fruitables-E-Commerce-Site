@@ -2,6 +2,7 @@
 using Entities.DTO;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using System;
@@ -48,9 +49,12 @@ namespace Services.Services
             return x;
         }
 
-        public async Task<IEnumerable<ProductDtoForList>> GetAllProducts(bool v)
+        public async Task<(IEnumerable<ProductDtoForList> booksDto, MetaData mt)> GetAllProducts(ProductParameters prdct, bool v)
         {
-            return await _productService.products.GetAllProducts(v);
+            var x =  await _productService.products.GetAllProducts(prdct,v);
+            var d = _mapper.Map<IEnumerable<ProductDtoForList>>(x);
+
+            return (d,x.MetaData);
 
         }
 

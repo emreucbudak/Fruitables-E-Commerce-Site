@@ -10,6 +10,8 @@ using Repositories.Context;
 using Services.Interfaces;
 using Entities.DTO;
 using Presentation.ActionFilters;
+using Entities.RequestFeatures;
+using Newtonsoft.Json;
 
 namespace Presentation.Controllers
 {
@@ -27,10 +29,11 @@ namespace Presentation.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDtoForList>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDtoForList>>> GetProducts([FromQuery]ProductParameters p)
         {
-           var x = await _context.ProductService.GetAllProducts(false);
-            return Ok(x);
+           var x = await _context.ProductService.GetAllProducts(p,false);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(x.mt));
+            return Ok(x.booksDto);
         }
 
         // GET: api/Products/5

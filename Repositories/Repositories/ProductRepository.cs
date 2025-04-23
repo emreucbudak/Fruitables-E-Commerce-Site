@@ -1,5 +1,6 @@
 ﻿using Entities.DTO;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
 using Repositories.Interfaces;
@@ -27,23 +28,13 @@ namespace Repositories.Repositories
             await Delete(product);
         }
 
-        public async Task<IEnumerable<ProductDtoForList>> GetAllProducts(bool v)
+        public async Task<PagedList<Products>> GetAllProducts(ProductParameters prdct , bool v)
         {
-            return await GetAll(v)
+            var page = await GetAll(v)
                 .Include(c => c.Category)
-                .Select(c => new ProductDtoForList
-                {
-                    Name = c.Name,
-                    Description = c.Description,
-                    Price = c.Price,
-                    Ratio = c.Ratio,
-                    Quentity = c.Quentity,
-                    IsExpired = c.IsExpired,
-                    IsDiscount = c.IsDiscount,
-                    ImgUrl = c.ImgUrl,
-                    CategoryName = c.Category.CategoryName
-                })
+                .OrderBy(c => c.ProductId)
                 .ToListAsync();
+            return PagedList<Products>.ToPagedList(page , prdct.PageNumber , prdct.PageSize);
         }
 
         public async Task<ProductDtoForList> GetProductsById(int id, bool v)

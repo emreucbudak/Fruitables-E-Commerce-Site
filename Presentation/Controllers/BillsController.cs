@@ -15,6 +15,7 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilterAttribute))]
     public class BillsController : ControllerBase
     {
         private readonly IServiceManager _context;

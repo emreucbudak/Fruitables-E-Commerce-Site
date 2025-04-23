@@ -14,6 +14,7 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilterAttribute))]
     public class CommentsController : ControllerBase
     {
         private readonly IServiceManager _context;

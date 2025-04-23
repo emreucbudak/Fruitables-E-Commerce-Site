@@ -1,5 +1,6 @@
 ﻿using Entities.DTO;
 using Entities.Models;
+using Entities.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Repositories.Interfaces
         Task UpdateProduct(Products product);
         Task DeleteProduct(Products product);
         Task<ProductDtoForList> GetProductsById(int id, bool v);
-        Task<IEnumerable<ProductDtoForList>> GetAllProducts(bool v);
+        Task<PagedList<Products>> GetAllProducts(ProductParameters prdc,bool v);
         Task<Products> GetProductAndCheck(int id , bool v);
     }
 }
