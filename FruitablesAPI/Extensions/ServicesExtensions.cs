@@ -11,6 +11,7 @@ using System;
 using Entities.DTO;
 using Entities.Validators;
 using Presentation.ActionFilters;
+using AspNetCoreRateLimit;
 
 namespace FruitablesAPI.Extensions
 {
@@ -83,6 +84,43 @@ namespace FruitablesAPI.Extensions
         {
             services.AddScoped<ValidationFilterAttribute>();
             services.AddSingleton<LogFilterAttribute>();
+        }
+        public static void ConfigureResponseCache (this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+        }
+        public static void ConfigureRateLimit(this IServiceCollection services)
+        {
+            var limitRules = new List<RateLimitRule>()
+    {
+        new RateLimitRule()
+        {
+            Endpoint = "*",
+            Period = "1m",
+            Limit = 3
+        }
+    };
+            services.Configure<IpRateLimitOptions>(opt =>
+            {
+                opt.GeneralRules = limitRules;
+            });
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
+        public static void ApplyCors (this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", builder =>
+                {
+                    builder.WithOrigins("https://www.frontend.com")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .WithExposedHeaders("X-Pagination"); 
+                });
+            });
         }
 
 

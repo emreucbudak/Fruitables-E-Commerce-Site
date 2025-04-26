@@ -26,9 +26,11 @@ namespace Presentation.Controllers
         {
             _context = context;
         }
-
+        
         // GET: api/Products
+        [HttpHead]
         [HttpGet]
+        [ResponseCache(CacheProfileName ="5mins")]
         public async Task<ActionResult<IEnumerable<ProductDtoForList>>> GetProducts([FromQuery]ProductParameters p)
         {
            var x = await _context.ProductService.GetAllProducts(p,false);
@@ -72,6 +74,12 @@ namespace Presentation.Controllers
             await _context.ProductService.DeleteProductFromService(id);
 
             return NoContent();
+        }
+        [HttpOptions]
+        public IActionResult Options()
+        {
+            Response.Headers.Add("Allow", "GET,PUT,POST,DELETE,HEAD,OPTIONS");
+            return Ok();
         }
 
 

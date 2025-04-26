@@ -1,4 +1,6 @@
+using AspNetCoreRateLimit;
 using FruitablesAPI.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Presentation.ActionFilters;
@@ -12,7 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
-builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyRefence).Assembly);
+builder.Services.AddControllers(config =>
+{
+    config.CacheProfiles.Add("5mins", new CacheProfile() {Duration = 300});
+}).AddApplicationPart(typeof(Presentation.AssemblyRefence).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,6 +30,11 @@ builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureActionFilters();
+builder.Services.ConfigureResponseCache();
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimit();
+builder.Services.AddHttpContextAccessor();
+builder.Services.ApplyCors();
 
 
 
@@ -40,8 +50,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseIpRateLimiting();
 app.UseAuthorization();
+app.UseResponseCaching();
+app.UseCors("AllowFrontend");
 
 app.MapControllers();
 
