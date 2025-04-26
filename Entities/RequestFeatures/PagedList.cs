@@ -8,20 +8,26 @@ namespace Entities.RequestFeatures
 {
     public class PagedList<T> : List<T>
     {
-        public MetaData MetaData { get; set; }
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+        public MetaData Metadata { get; set; }
+        public PagedList(List<T> items, int pageSize, int pageNumber, int count)
         {
-            MetaData.TotalCount = count;
-            MetaData.PageSize = pageSize;
-            MetaData.CurrentPage = pageNumber;
-            MetaData.PageCount = (int)Math.Ceiling(count / (double)pageSize);
+            Metadata = new MetaData()
+            {
+
+                CurrentPage = pageNumber,
+                TotalCount = count,
+                PageSize = pageSize,
+                PageCount = (int)Math.Ceiling(count / (double)pageSize)
+
+            };
             AddRange(items);
         }
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize)
+        public static PagedList<T> ToPagedList(IEnumerable<T> items, int pagesize, int pagenumber)
         {
-            var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            var count = items.Count();
+            var source = items.Skip((pagenumber - 1) * pagesize).Take(pagesize).ToList();
+
+            return new PagedList<T>(source, pagesize, pagenumber, count);
         }
     }
 }

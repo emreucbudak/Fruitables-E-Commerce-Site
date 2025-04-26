@@ -21,7 +21,7 @@ namespace FruitablesAPI.Utilities.AutoMapper
             CreateMap<BillsDtoForList, Bills>();
             CreateMap<BillsDtoForInsert, Bills>();
             CreateMap<ProductDtoForInsert, Products>();
-            CreateMap<Products,ProductDtoForList>();
+            CreateMap<Products,ProductDtoForList>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName));
             CreateMap<UserDtoForInsert, User>();
 
         }

@@ -56,9 +56,13 @@ namespace Services.Services
                 throw new PriceBadRequestExceptions();
             }
             var x =  await _productService.products.GetAllProducts(prdct,v);
-            var d = _mapper.Map<IEnumerable<ProductDtoForList>>(x);
+            
+            var d =  _mapper.Map<IEnumerable<ProductDtoForList>>(x);
+            
 
-            return (d,x.MetaData);
+           
+
+            return (d,x.Metadata);
 
         }
 

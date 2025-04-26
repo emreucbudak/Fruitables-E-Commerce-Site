@@ -31,11 +31,14 @@ namespace Repositories.Repositories
         public async Task<PagedList<Products>> GetAllProducts(ProductParameters prdct, bool v)
         {
             var page = await GetAll(v)
+                                .Include(c => c.Category)
                 .FilterProducts(prdct.MaxPrice,prdct.MinPrice)
-                .SearchProducts(prdct.ProductName)
-                .Include(c => c.Category)  // Category'yi dahil ediyoruz
+                .SearchProducts(prdct.ProductName) 
                 .OrderBy(c => c.ProductId)  // Ürünleri ProductId'ye göre sıralıyoruz
                 .ToListAsync();  // Veriyi asenkron şekilde çekiyoruz
+
+
+
 
             return PagedList<Products>.ToPagedList(page, prdct.PageNumber, prdct.PageSize);
         }
