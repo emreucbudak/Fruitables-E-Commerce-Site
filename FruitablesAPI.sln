@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositorie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{C40E16EE-F3BB-4159-B85D-D5D27A347241}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{24A2C020-7B44-4E7F-A269-C72E2DA5319D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Presentation\Presentation.csproj", "{24A2C020-7B44-4E7F-A269-C72E2DA5319D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fruitables", "Fruitables\Fruitables.csproj", "{129CD536-0967-4DC9-8469-7DA13C82A171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{24A2C020-7B44-4E7F-A269-C72E2DA5319D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A2C020-7B44-4E7F-A269-C72E2DA5319D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A2C020-7B44-4E7F-A269-C72E2DA5319D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{129CD536-0967-4DC9-8469-7DA13C82A171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129CD536-0967-4DC9-8469-7DA13C82A171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129CD536-0967-4DC9-8469-7DA13C82A171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{129CD536-0967-4DC9-8469-7DA13C82A171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

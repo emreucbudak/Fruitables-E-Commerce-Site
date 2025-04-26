@@ -1,0 +1,18 @@
+@media (max-width: 768px) {
+    body {
+        height:1000vh;
+    }
+    .ftr {
+        margin-top: 1200vh; /* Mobilde 120vh margin-top */
+    }
+}
+
+/* 576px'den küçük ekranlar (daha da küçük cihazlar için) */
+@media (max-width: 576px) {
+    body {
+        height: 1000vh;
+    }
+    .ftr {
+        margin-top: 1500vh; /* Küçük cihazlarda 150vh margin-top */
+    }
+}
