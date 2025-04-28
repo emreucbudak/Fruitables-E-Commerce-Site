@@ -496,13 +496,12 @@
 }
 
 
-/* 576px'den küçük ekranlar (daha da küçük cihazlar için) */
-@media (max-width: 500px) {
+.ftr-footer {
+    position: relative;
+    display: flex;
 
-    .ftr {
-        display:none;
-    }
 }
+
 
 
 

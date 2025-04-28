@@ -24,6 +24,14 @@ namespace Fruitables.Controllers
         {
             return View(); 
         }
+        public IActionResult NotFound()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
 
     }
 }
