@@ -115,7 +115,7 @@ namespace FruitablesAPI.Extensions
             {
                 options.AddPolicy("AllowFrontend", builder =>
                 {
-                    builder.WithOrigins("https://www.frontend.com")
+                    builder.WithOrigins("https://localhost:7090")
                            .AllowAnyHeader()
                            .AllowAnyMethod()
                            .WithExposedHeaders("X-Pagination"); 

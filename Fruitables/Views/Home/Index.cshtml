@@ -852,35 +852,7 @@
 <div class="container-fluid py-5">
     <div class="container">
         <div class="bg-light p-5 rounded">
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>Alışveriş Yapan Müşteri</h4>
-                        <h1>1963</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>Ürün Kalitesi</h4>
-                        <h1>99%</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>quality certificates</h4>
-                        <h1>33</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>Available Products</h4>
-                        <h1>789</h1>
-                    </div>
-                </div>
+            <div class="row g-4 justify-content-center fact">
             </div>
         </div>
     </div>
@@ -890,8 +862,8 @@
 <div class="container-fluid testimonial py-5">
     <div class="container py-5">
         <div class="testimonial-header text-center">
-            <h4 class="text-primary">Our Testimonial</h4>
-            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+            <h4 class="text-primary">Geri Dönüşler</h4>
+            <h1 class="display-5 mb-5 text-dark">Müşterilerimizin Olumlu Dönüşleri</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
             <div class="testimonial-item img-border-radius bg-light rounded p-4">
@@ -975,3 +947,33 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const doElement = document.querySelector(".fact");
+
+    axios.get("https://localhost:7005/api/wegives")
+        .then(response => {
+            const data = response.data;
+            data.forEach(response => {
+                const h1 = document.createElement("h1");
+                h1.textContent = response.count;
+                const h4 = document.createElement("h4");
+                h4.textContent = response.title;
+                const logo = document.createElement("i");
+                logo.innerHTML = response.imgUrl;
+                const div = document.createElement("div");
+                div.className = "counter bg-white rounded p-5";
+                const anaDiv = document.createElement("div");
+                anaDiv.className = "col-md-6 col-lg-6 col-xl-3";
+                div.appendChild(logo);
+                div.appendChild(h1);
+                div.appendChild(h4);
+                anaDiv.appendChild(div);
+                doElement.appendChild(anaDiv);
+            });
+        })
+        .catch(err => {
+            console.log(err);  // Hata mesajlarını burada logla
+        });
+</script>
+
