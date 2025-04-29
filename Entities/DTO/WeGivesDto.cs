@@ -9,7 +9,7 @@ namespace Entities.DTO
     public record WeGivesDto
     {
         public string Title { get; init; }
-        public string Description { get; init; }
+        public int Count { get; init; }
         public string ImgUrl { get; init; }
     }
 }

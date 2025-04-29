@@ -66,7 +66,7 @@ namespace Services.Services
         {
             var x = await GetWeGivesByIdAsnyc(id);
             x.Title = wegs.Title;
-            x.Description = wegs.Description;
+            x.Count = wegs.Count;
             x.ImgUrl = wegs.ImgUrl;
             await _rp.weGivesRepositories.UpdateWeGives(x);
             _rp.Save();
