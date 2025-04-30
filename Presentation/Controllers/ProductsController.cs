@@ -37,7 +37,12 @@ namespace Presentation.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(x.mt));
             return Ok(x.booksDto);
         }
-
+        [HttpGet("category")]
+        public async Task<ActionResult<ProductDtoForList>> GetProductsForCategory([FromQuery]ProductParameters prdc)
+        {
+            var x = await _context.ProductService.GetProductsForCategorySearch(prdc);
+            return Ok(x);
+        }
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDtoForList>> GetProducts(int id)

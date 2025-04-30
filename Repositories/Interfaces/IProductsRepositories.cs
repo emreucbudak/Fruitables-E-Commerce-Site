@@ -17,5 +17,6 @@ namespace Repositories.Interfaces
         Task<ProductDtoForList> GetProductsById(int id, bool v);
         Task<PagedList<Products>> GetAllProducts(ProductParameters prdc,bool v);
         Task<Products> GetProductAndCheck(int id , bool v);
+        Task<IEnumerable<Products>> GetAllForCategories (ProductParameters prdc);
     }
 }

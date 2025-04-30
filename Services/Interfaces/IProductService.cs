@@ -16,6 +16,7 @@ namespace Services.Interfaces
         Task UpdateProductFromService(int id , ProductDtoForUpdate prd);
         Task<(IEnumerable<ProductDtoForList> booksDto , MetaData mt)> GetAllProducts(ProductParameters prdct , bool v);
         Task<ProductDtoForList> GetProductById(int id , bool v);
+        Task <IEnumerable<ProductDtoForList>> GetProductsForCategorySearch(ProductParameters prdct );
 
     }
 }

@@ -15,5 +15,6 @@ namespace Entities.RequestFeatures
         public ProductParameters() {
             OrderBy = "ProductId";
         }
+        public String? Category {  get; set; }
     }
 }

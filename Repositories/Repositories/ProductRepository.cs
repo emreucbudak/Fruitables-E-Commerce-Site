@@ -33,14 +33,22 @@ namespace Repositories.Repositories
             var page = await GetAll(v)
                                 .Include(c => c.Category)
                                                 .OrderProducts(prdct.OrderBy)
+                                                .SearchCategory(prdct.Category)
+
                 .FilterProducts(prdct.MaxPrice,prdct.MinPrice)
-                .SearchProducts(prdct.ProductName) 
+                .SearchProducts(prdct.ProductName)
+
                 .ToListAsync();  
 
 
 
 
             return PagedList<Products>.ToPagedList(page, prdct.PageSize, prdct.PageNumber);
+        }
+        public async Task<IEnumerable<Products>> GetAllForCategories (ProductParameters prdct)
+        {
+            var page = await GetAll(false).Include(c => c.Category).OrderProducts(prdct.OrderBy).SearchCategory(prdct.Category).FilterProducts(prdct.MaxPrice, prdct.MinPrice).ToListAsync();
+            return page;
         }
 
         public async Task<ProductDtoForList> GetProductsById(int id, bool v)

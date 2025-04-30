@@ -66,6 +66,7 @@ namespace Services.Services
 
         }
 
+
         public async Task<ProductDtoForList> GetProductById(int id, bool v)
         {
             var x =  await _productService.products.GetProductsById(id, v);
@@ -93,6 +94,18 @@ namespace Services.Services
             await _productService.products.UpdateProduct(x);
             _productService.Save();
 
+        }
+
+        public async Task<IEnumerable<ProductDtoForList>> GetProductsForCategorySearch(ProductParameters prdct)
+        {
+            if (!prdct.Control)
+            {
+                throw new PriceBadRequestExceptions();
+
+            }
+            var x = await  _productService.products.GetAllForCategories(prdct);
+            var d = _mapper.Map<IEnumerable<ProductDtoForList>>(x);
+            return d;
         }
     }
 }

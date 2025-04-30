@@ -17,12 +17,12 @@ namespace Repositories.Repositories
             if (string.IsNullOrWhiteSpace(ProductName))
                 return prdct;
             var lowercase = ProductName.Trim().ToLower();
-            prdct= prdct.Where(b => b.Name.ToLower().Contains(lowercase));
+            prdct = prdct.Where(b => b.Name.ToLower().Contains(lowercase));
             return prdct;
         }
         public static IQueryable<Products> OrderProducts(this IQueryable<Products> prdct, string orderBy)
         {
-            if(!prdct.Any())
+            if (!prdct.Any())
             {
                 return null;
 
@@ -36,12 +36,12 @@ namespace Repositories.Repositories
             StringBuilder sb = new StringBuilder();
             foreach (var p in prms)
             {
-                if(string.IsNullOrWhiteSpace(p))
+                if (string.IsNullOrWhiteSpace(p))
                 {
                     continue;
                 }
                 var prm = p.Split(' ')[0];
-                var prt = propinfo.FirstOrDefault(pi => pi.Name.Equals(prm,StringComparison.InvariantCultureIgnoreCase));
+                var prt = propinfo.FirstOrDefault(pi => pi.Name.Equals(prm, StringComparison.InvariantCultureIgnoreCase));
                 if (prt == null)
                 {
                     continue;
@@ -51,17 +51,28 @@ namespace Repositories.Repositories
 
 
             }
-            var prts = sb.ToString().TrimEnd(',',' ');
-            if (!prts.Any()) {
-                prdct  =  prdct.OrderBy(prdct => prdct.Name);
+            var prts = sb.ToString().TrimEnd(',', ' ');
+            if (!prts.Any())
+            {
+                prdct = prdct.OrderBy(prdct => prdct.Name);
                 return prdct;
 
             }
             return prdct.OrderBy(prts);
-            
+
 
 
         }
+        public static IQueryable<Products> SearchCategory(this IQueryable<Products> source, string category)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                return source;
+            }
+            source = source.Where(b=> b.Category.CategoryName.ToLower().Trim().Contains(category.ToLower()));
+            return source;
 
+
+        }
     }
 }

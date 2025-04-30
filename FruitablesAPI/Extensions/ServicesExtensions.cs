@@ -97,7 +97,7 @@ namespace FruitablesAPI.Extensions
         {
             Endpoint = "*",
             Period = "1m",
-            Limit = 10
+            Limit = 10000
         }
     };
             services.Configure<IpRateLimitOptions>(opt =>
