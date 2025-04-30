@@ -16,7 +16,7 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nl
 
 builder.Services.AddControllers(config =>
 {
-    config.CacheProfiles.Add("5mins", new CacheProfile() {Duration = 300});
+    config.CacheProfiles.Add("5mins", new CacheProfile() {Duration = 10});
 }).AddApplicationPart(typeof(Presentation.AssemblyRefence).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

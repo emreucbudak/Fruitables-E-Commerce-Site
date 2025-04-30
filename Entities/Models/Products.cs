@@ -16,9 +16,12 @@ namespace Entities.Models
         public int Price { get; set; }
         public int Ratio { get; set; }
         public int Quentity { get; set; }
+        
 
         public bool IsExpired { get; set; }
         public bool IsDiscount {  get; set; }
+        public int Discount {  get; set; }
+        public int DiscountPrice { get; set; }
         public string ImgUrl { get; set; }
         public int CategoryID { get; set; }
         public Category Category { get; set; }

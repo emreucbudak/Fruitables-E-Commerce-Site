@@ -16,6 +16,8 @@ namespace Entities.DTO
 
         public bool IsExpired { get; init; }
         public bool IsDiscount { get; init ; }
+        public int Discount { get; init; }
+        public int DiscountPrice { get; init; }
         public string ImgUrl { get; init; }
 
     }

@@ -32,15 +32,15 @@ namespace Repositories.Repositories
         {
             var page = await GetAll(v)
                                 .Include(c => c.Category)
+                                                .OrderProducts(prdct.OrderBy)
                 .FilterProducts(prdct.MaxPrice,prdct.MinPrice)
                 .SearchProducts(prdct.ProductName) 
-                .OrderBy(c => c.ProductId)  // Ürünleri ProductId'ye göre sıralıyoruz
-                .ToListAsync();  // Veriyi asenkron şekilde çekiyoruz
+                .ToListAsync();  
 
 
 
 
-            return PagedList<Products>.ToPagedList(page, prdct.PageNumber, prdct.PageSize);
+            return PagedList<Products>.ToPagedList(page, prdct.PageSize, prdct.PageNumber);
         }
 
         public async Task<ProductDtoForList> GetProductsById(int id, bool v)

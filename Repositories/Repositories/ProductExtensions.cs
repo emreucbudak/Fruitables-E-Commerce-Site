@@ -14,9 +14,11 @@ namespace Repositories.Repositories
         public static IQueryable<Products> FilterProducts(this IQueryable<Products> query, uint maxPrice, uint MinPrice) => query.Where(b => b.Price < maxPrice && b.Price > MinPrice);
         public static IQueryable<Products> SearchProducts(this IQueryable<Products> prdct, string ProductName)
         {
-            if (!prdct.Any() || string.IsNullOrWhiteSpace(ProductName))
+            if (string.IsNullOrWhiteSpace(ProductName))
                 return prdct;
-            return prdct.Where(b => b.Name.ToLower().Trim().Contains(ProductName.Trim().ToLower()));
+            var lowercase = ProductName.Trim().ToLower();
+            prdct= prdct.Where(b => b.Name.ToLower().Contains(lowercase));
+            return prdct;
         }
         public static IQueryable<Products> OrderProducts(this IQueryable<Products> prdct, string orderBy)
         {
