@@ -40,14 +40,16 @@ namespace Repositories.Repositories
                 {
                     continue;
                 }
-                var prm = p.Split(' ')[0];
+                var prm = p.Split(" ")[0];
                 var prt = propinfo.FirstOrDefault(pi => pi.Name.Equals(prm, StringComparison.InvariantCultureIgnoreCase));
                 if (prt == null)
                 {
                     continue;
                 }
-                var sorting = (prm.EndsWith(" desc")) ? "descending" : "ascending";
-                sb.Append($"{prt.Name.ToString()} {sorting},");
+                var dk = p.Split(" ")[1];
+                var sorting = (dk == "desc") ? "descending" : "ascending";
+
+                sb.Append($"{prt.Name.ToString()} {sorting}, ");
 
 
             }
@@ -58,7 +60,8 @@ namespace Repositories.Repositories
                 return prdct;
 
             }
-            return prdct.OrderBy(prts);
+            var x =  prdct.OrderBy(prts);
+            return x;
 
 
 

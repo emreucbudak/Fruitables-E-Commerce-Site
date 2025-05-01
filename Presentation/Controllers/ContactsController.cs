@@ -10,6 +10,8 @@ using Repositories.Context;
 using Services.Interfaces;
 using Entities.DTO;
 using Presentation.ActionFilters;
+using System.Net.Mail;
+using System.Net;
 
 namespace Presentation.Controllers
 {
@@ -58,8 +60,26 @@ namespace Presentation.Controllers
         public async Task<ActionResult<Contact>> PostContact(ContactDto contact)
         {
             await _context.ContactService.AddContactFromService(contact);
+            SendEmailToUser(contact.Email);
 
             return NoContent();
+        }
+        private void SendEmailToUser(string toEmail)
+        {
+            var fromEmail = "entazeceptedestek@gmail.com"; 
+            var subject = "Mesajınız Alındı";
+            var body = "Mesajınız alınmıştır, en kısa sürede dönüş yapılacaktır.";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587, // TLS için 587
+                Credentials = new NetworkCredential("entazeceptedestek@gmail.com", "entazecepte6363"), // Gmail kullanıcı adı ve şifreniz
+                EnableSsl = true // SSL/TLS'yi etkinleştiriyoruz
+            };
+
+            var mailMessage = new MailMessage(fromEmail, toEmail, subject, body);
+
+            smtpClient.Send(mailMessage);
         }
 
         // DELETE: api/Contacts/5

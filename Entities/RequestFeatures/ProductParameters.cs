@@ -12,9 +12,7 @@ namespace Entities.RequestFeatures
         public uint MaxPrice { get; set; } = 1000;
         public bool Control => MinPrice < MaxPrice;
         public String? ProductName { get; set; }
-        public ProductParameters() {
-            OrderBy = "ProductId";
-        }
+
         public String? Category {  get; set; }
     }
 }
