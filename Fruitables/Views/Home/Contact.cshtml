@@ -16,12 +16,13 @@
                     </div>
                 </div>
                 <div class="col-lg-7">
-                    <form action="" class="">
-                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="İsminiz">
-                        <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Email Girin">
-                        <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Mesajınız" style="resize:none;"></textarea>
-                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Gönder</button>
+                    <form action="" class="" method="post">
+                        <input type="text" class="w-100 form-control border-0 py-3 mb-4 name" placeholder="İsminiz">
+                        <input type="email" class="w-100 form-control border-0 py-3 mb-4 mail" placeholder="Email Girin">
+                        <textarea class="w-100 form-control border-0 mb-4 message" rows="5" cols="10" placeholder="Mesajınız" style="resize:none;"></textarea>
+                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary cntct" type="submit">Gönder</button>
                     </form>
+
                 </div>
                 <div class="col-lg-5">
                     <div class="d-flex p-4 rounded mb-4 bg-white">
@@ -50,3 +51,31 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.querySelector(".cntct").addEventListener("click", e => {
+        e.preventDefault();  
+
+
+        const model = {
+            name: document.querySelector(".name").value,
+            email: document.querySelector(".mail").value,
+            message: document.querySelector(".message").value
+        };
+
+
+        axios.post("https://localhost:7005/api/contacts", model, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(resp => {
+                console.log("Başarılı", resp.data);
+            })
+            .catch(err => {
+                console.log("Hata:", err.response ? err.response.data : err.message);
+            });
+    });
+
+
+</script>

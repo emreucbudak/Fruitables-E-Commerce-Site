@@ -56,8 +56,8 @@ namespace Presentation.Controllers
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<ActionResult<Contact>> PostContact(ContactDto contact)
+
+        public async Task<ActionResult<Contact>> PostContact([FromBody]ContactDto contact)
         {
             await _context.ContactService.AddContactFromService(contact);
             SendEmailToUser(contact.Email);
@@ -66,21 +66,30 @@ namespace Presentation.Controllers
         }
         private void SendEmailToUser(string toEmail)
         {
-            var fromEmail = "entazeceptedestek@gmail.com"; 
+            var fromEmail = "entazeceptedestek@gmail.com";
             var subject = "Mesajınız Alındı";
             var body = "Mesajınız alınmıştır, en kısa sürede dönüş yapılacaktır.";
 
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587, // TLS için 587
-                Credentials = new NetworkCredential("entazeceptedestek@gmail.com", "entazecepte6363"), // Gmail kullanıcı adı ve şifreniz
+                Credentials = new NetworkCredential("entazeceptedestek@gmail.com", "kusc zqdb ofse ulgh"), // Uygulama şifresi kullanın
                 EnableSsl = true // SSL/TLS'yi etkinleştiriyoruz
             };
 
             var mailMessage = new MailMessage(fromEmail, toEmail, subject, body);
 
-            smtpClient.Send(mailMessage);
+            try
+            {
+                smtpClient.Send(mailMessage);
+                Console.WriteLine("E-posta başarıyla gönderildi.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("E-posta gönderme hatası: " + ex.Message);
+            }
         }
+
 
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]

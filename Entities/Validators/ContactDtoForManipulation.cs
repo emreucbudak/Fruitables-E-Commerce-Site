@@ -22,7 +22,7 @@ namespace Entities.Validators
 
             RuleFor(c => c.Message)
                 .NotEmpty().WithMessage("Mesaj boş olamaz.")
-                .MinimumLength(10).WithMessage("Mesaj en az 10 karakter olmalıdır.");
+                .MinimumLength(3).WithMessage("Mesaj en az 10 karakter olmalıdır.");
         }
     }
 }
