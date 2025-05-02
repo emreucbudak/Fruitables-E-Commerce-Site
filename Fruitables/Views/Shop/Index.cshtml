@@ -75,69 +75,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 discount">
                                 <h4 class="mb-3">İndirimdeki Ürünlerimiz</h4>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-1.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
+
+                                <!-- Ürün kartları buraya eklenecek -->
+                                <div id="discount-products" class="row g-4 mb-4">
                                 </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-2.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-3.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                <!-- Buton sabit kalacak -->
                                 <div class="d-flex justify-content-center my-4">
                                     <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Daha Fazlasını Gör</a>
                                 </div>
                             </div>
+
                             <div class="col-lg-12">
                                 <div class="position-relative ds">
 
@@ -310,6 +260,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     //Fiyat Filtresine tl ekleme
     function updateAmount() {
@@ -318,4 +269,72 @@
         amountOutput.textContent = rangeValue + '₺';  // ₺ simgesini ekliyoruz
     }
     //Fiyat filtresine tl ekleme bitti
+    //İndirimdeki Ürünler
+    window.onload = function () {
+        const productContainer = document.querySelector("#discount-products");
+
+        axios.get("https://localhost:7005/api/products", {
+            params: {
+                PageNumber: 1,
+                PageSize: 3,
+                IsDiscount: true
+            }
+        }).then(response => {
+            const data = response.data;
+
+            data.forEach(product => {
+                const card = document.createElement("div");
+                card.className = "card shadow-sm border-0 rounded d-flex flex-md-row flex-column p-2";
+
+                const img = document.createElement("img");
+                img.src = product.imgUrl;
+                img.className = "rounded mb-2 mb-md-0";
+                img.alt = product.name;
+                img.style = "width: 120px; height: 120px; object-fit: cover;";
+
+                const cardBody = document.createElement("div");
+                cardBody.className = "ms-md-3 d-flex flex-column justify-content-between";
+
+                const name = document.createElement("h5");
+                name.className = "fw-semibold mb-1";
+                name.textContent = product.name;
+
+                const desc = document.createElement("p");
+                desc.className = "text-muted small mb-2";
+                desc.textContent = product.description;
+
+                const prices = document.createElement("div");
+                prices.className = "d-flex align-items-baseline gap-2";
+
+                const discountPrice = document.createElement("span");
+                discountPrice.className = "fw-bold text-success";
+                discountPrice.textContent = product.discountPrice + "₺";
+
+                const originalPrice = document.createElement("span");
+                originalPrice.className = "text-danger text-decoration-line-through small";
+                originalPrice.textContent = product.price + "₺";
+
+                prices.appendChild(discountPrice);
+                prices.appendChild(originalPrice);
+
+                cardBody.appendChild(name);
+                cardBody.appendChild(desc);
+                cardBody.appendChild(prices);
+
+                card.appendChild(img);
+                card.appendChild(cardBody);
+
+                productContainer.appendChild(card);
+            });
+
+        }).catch(err => {
+            console.error("API Hatası:", err);
+        });
+    };
+// İndirimli Ürünler Bitiş
+
+
+
+
+
 </script>

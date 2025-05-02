@@ -31,10 +31,11 @@ namespace Repositories.Repositories
         public async Task<PagedList<Products>> GetAllProducts(ProductParameters prdct, bool v)
         {
             var page = await GetAll(v)
-                                .Include(c => c.Category)
+                                                                .DiscountCheck(prdct.IsDiscount)
+                .Include(c => c.Category)
                                                 .OrderProducts(prdct.OrderBy)
                                                 .SearchCategory(prdct.Category)
-                                                .DiscountCheck(prdct.IsDiscount)
+
 
                 .FilterProducts(prdct.MaxPrice,prdct.MinPrice)
                 .SearchProducts(prdct.ProductName)

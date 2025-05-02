@@ -79,7 +79,10 @@ namespace Repositories.Repositories
         }
         public static IQueryable<Products> DiscountCheck(this IQueryable<Products> source, bool? v)
         {
-            return v.HasValue ? source.Where(b=> b.IsDiscount == v.Value) : source;
+            if (v.HasValue && v.Value == true) {
+                return source.Where(b => b.IsDiscount == v.Value);
+            }
+            return source;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Presentation.Controllers
         // GET: api/Products
         [HttpHead]
         [HttpGet]
-        [ResponseCache(CacheProfileName ="5mins")]
+
         public async Task<ActionResult<IEnumerable<ProductDtoForList>>> GetProducts([FromQuery]ProductParameters p)
         {
            var x = await _context.ProductService.GetAllProducts(p,false);
