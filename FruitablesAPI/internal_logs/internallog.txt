@@ -1598,3 +1598,15 @@
 2025-05-02 01:18:20.2938 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
 2025-05-02 01:18:20.3000 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
 2025-05-02 01:18:20.3000 Info Configuration initialized.
+2025-05-02 15:13:35.4878 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-02 15:13:35.5209 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-02 15:13:35.5430 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
+2025-05-02 15:13:35.5592 Info Configuration initialized.
+2025-05-02 15:19:56.0471 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-02 15:19:56.0602 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-02 15:19:56.0711 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
+2025-05-02 15:19:56.0830 Info Configuration initialized.
+2025-05-02 15:20:42.6928 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-02 15:20:42.7070 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-02 15:20:42.7070 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\gamee\source\repos\FruitablesAPI\FruitablesAPI\nlog.config
+2025-05-02 15:20:42.7256 Info Configuration initialized.
