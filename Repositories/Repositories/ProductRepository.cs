@@ -34,6 +34,7 @@ namespace Repositories.Repositories
                                 .Include(c => c.Category)
                                                 .OrderProducts(prdct.OrderBy)
                                                 .SearchCategory(prdct.Category)
+                                                .DiscountCheck(prdct.IsDiscount)
 
                 .FilterProducts(prdct.MaxPrice,prdct.MinPrice)
                 .SearchProducts(prdct.ProductName)

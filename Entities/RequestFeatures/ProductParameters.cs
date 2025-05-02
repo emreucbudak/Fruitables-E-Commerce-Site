@@ -14,5 +14,6 @@ namespace Entities.RequestFeatures
         public String? ProductName { get; set; }
 
         public String? Category {  get; set; }
+        public bool? IsDiscount {  get; set; }
     }
 }

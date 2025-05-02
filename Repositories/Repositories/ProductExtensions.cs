@@ -29,7 +29,7 @@ namespace Repositories.Repositories
             }
             if (string.IsNullOrWhiteSpace(orderBy))
             {
-                return prdct.OrderBy(b => b.Name);
+                return prdct.OrderBy(b => b.ProductId);
             }
             var prms = orderBy.Trim().Split(',');
             var propinfo = typeof(Products).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -76,6 +76,10 @@ namespace Repositories.Repositories
             return source;
 
 
+        }
+        public static IQueryable<Products> DiscountCheck(this IQueryable<Products> source, bool? v)
+        {
+            return v.HasValue ? source.Where(b=> b.IsDiscount == v.Value) : source;
         }
     }
 }
