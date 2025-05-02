@@ -8,5 +8,9 @@ namespace Fruitables.Controllers
         {
             return View();
         }
+        public IActionResult DiscountPage()
+        {
+            return View();
+        }
     }
 }
