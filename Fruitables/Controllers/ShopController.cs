@@ -12,5 +12,12 @@ namespace Fruitables.Controllers
         {
             return View();
         }
+        [Route("shop/{productName}")]
+        public IActionResult ProductDetail(string productName)
+        {
+
+            return View("ProductDetail", productName);
+        }
+
     }
 }

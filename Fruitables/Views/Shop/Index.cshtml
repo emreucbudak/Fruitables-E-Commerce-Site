@@ -260,6 +260,16 @@
         }
     }
 
+    function toSlug(name) {
+        return name
+            .toLowerCase()
+            .replace(/[çğıöşü]/g, c => ({
+                'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u'
+            }[c]))
+            .replace(/[^a-z0-9\s-]/g, '')  // özel karakterleri kaldır
+            .replace(/\s+/g, '-');         // boşlukları tire yap
+    }
+
     function loadProducts(pageNumber) {
         axios.get("https://localhost:7005/api/products", {
             params: {
@@ -271,47 +281,63 @@
             const products = response.data;
 
             products.forEach(product => {
+                // Fiyat etiketi
                 const priceElement = document.createElement("p");
                 priceElement.className = "text-dark fs-5 fw-bold mb-0";
-                priceElement.textContent = (product.isDiscount) ? product.discountPrice + "₺" : product.price + "₺";
+                priceElement.textContent = (product.isDiscount)
+                    ? product.discountPrice + "₺"
+                    : product.price + "₺";
 
-                const divElement = document.createElement("div");
-                divElement.className = "d-flex justify-content-between flex-lg-wrap";
-                divElement.appendChild(priceElement);
+                // Fiyatın olduğu div
+                const priceWrapper = document.createElement("div");
+                priceWrapper.className = "d-flex justify-content-between flex-lg-wrap";
+                priceWrapper.appendChild(priceElement);
 
-                const pElement = document.createElement("p");
-                pElement.textContent = product.description;
+                // Açıklama ve isim
+                const descriptionElement = document.createElement("p");
+                descriptionElement.textContent = product.description;
 
-                const h4Element = document.createElement("h4");
-                h4Element.textContent = product.name;
+                const nameElement = document.createElement("h4");
+                nameElement.textContent = product.name;
 
-                const divtElement = document.createElement("div");
-                divtElement.className = "p-4 border border-secondary border-top-0 rounded-bottom";
-                divtElement.appendChild(h4Element);
-                divtElement.appendChild(pElement);
-                divtElement.appendChild(divElement);
+                const detailWrapper = document.createElement("div");
+                detailWrapper.className = "p-4 border border-secondary border-top-0 rounded-bottom";
+                detailWrapper.appendChild(nameElement);
+                detailWrapper.appendChild(descriptionElement);
+                detailWrapper.appendChild(priceWrapper);
 
+                // Kategori etiketi
                 const labelElement = document.createElement("div");
                 labelElement.className = "text-white bg-secondary px-3 py-1 rounded position-absolute";
                 labelElement.style.top = "10px";
                 labelElement.style.left = "10px";
                 labelElement.textContent = product.categoryName;
 
+                // Ürün resmi
                 const imgElement = document.createElement("img");
                 imgElement.src = product.imgUrl;
                 imgElement.className = "img-fluid w-100 rounded-top";
                 imgElement.alt = "";
 
-                const fruiteImgDiv = document.createElement("div");
-                fruiteImgDiv.className = "fruite-img";
-                fruiteImgDiv.append(imgElement);
+                const imgWrapper = document.createElement("div");
+                imgWrapper.className = "fruite-img";
+                imgWrapper.appendChild(imgElement);
 
+                // Tüm kart
                 const fruitContainer = document.createElement("div");
                 fruitContainer.className = "rounded position-relative fruite-item";
-                fruitContainer.appendChild(fruiteImgDiv);
+                fruitContainer.appendChild(imgWrapper);
                 fruitContainer.appendChild(labelElement);
-                fruitContainer.appendChild(divtElement);
+                fruitContainer.appendChild(detailWrapper);
 
+                // 👇 Kartı tıklanabilir yap – tıklanınca yönlendir
+                fruitContainer.style.cursor = "pointer";
+                fruitContainer.addEventListener("click", () => {
+                    const slug = toSlug(product.name);
+                    window.location.href = `/shop/${slug}`;
+                });
+
+                // Grid kolon yapısı
                 const colDiv = document.createElement("div");
                 colDiv.className = "col-md-6 col-lg-6 col-xl-4";
                 colDiv.appendChild(fruitContainer);
@@ -323,6 +349,7 @@
             console.error("API Hatası:", err);
         });
     }
+
 
 
 

@@ -1,0 +1,365 @@
+﻿@{
+    ViewData["Title"] = "Ürün Detayı";
+    var productName = (string)Model;
+}
+
+<style>
+    .product-card {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+        .product-card img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .product-card h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            font-size: 18px;
+            margin: 8px 0;
+        }
+
+    .stars span {
+        font-size: 28px;
+        margin-right: 4px;
+    }
+
+    .expired {
+        color: red;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .price {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+        .price .original {
+            text-decoration: line-through;
+            color: gray;
+            margin-right: 10px;
+        }
+
+        .price .discount {
+            color: red;
+        }
+
+    /* Yorumlar Kartı */
+    .comment-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+    }
+
+        .comment-card .username {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .comment-card .date {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .comment-card .rating {
+            margin-top: 5px;
+        }
+
+            .comment-card .rating span {
+                font-size: 20px;
+                color: gold;
+            }
+
+    .comments-section {
+        margin-top: 60px;
+        padding-top: 30px;
+        border-top: 2px solid #ddd;
+    }
+
+        .comments-section h3 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+    .comment-box-container {
+        max-width: 900px;
+    }
+
+    .comment-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        resize: none;
+    }
+
+    .submit-comment-btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .submit-comment-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .more-comments-btn {
+        padding: 10px 20px;
+        background-color: #f1f1f1;
+        color: #333;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+        .more-comments-btn:hover {
+            background-color: #ddd;
+        }
+
+    .product-quantity-container {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+        .product-quantity-container input {
+            width: 60px;
+            padding: 8px;
+            font-size: 18px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .product-quantity-container .kg-text {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+    .add-to-cart-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 12px 24px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+        .add-to-cart-btn:hover {
+            background-color: #218838;
+        }
+
+</style>
+
+<div id="product-detail" class="product-card"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const productName = @Html.Raw(Json.Serialize(productName));
+
+    axios.get("https://localhost:7005/api/products", {
+        params: {
+            PageNumber: 1,
+            PageSize: 1,
+            ProductName: productName
+        }
+    }).then(response => {
+        const data = response.data[0];
+
+        const container = document.getElementById("product-detail");
+
+        if (!data) {
+            container.innerHTML = "<p class='text-danger'>Ürün bulunamadı.</p>";
+            return;
+        }
+
+        const img = document.createElement("img");
+        img.src = data.imgUrl;
+        img.alt = data.name;
+
+        const title = document.createElement("h2");
+        title.textContent = data.name;
+
+        const desc = document.createElement("p");
+        desc.textContent = data.description;
+
+        const category = document.createElement("p");
+        category.innerHTML = `<strong>Kategori:</strong> ${data.categoryName}`;
+
+        const price = document.createElement("p");
+        price.className = "price";
+
+        if (data.isDiscount) {
+            price.innerHTML = `
+                    <span class="original">${data.price}₺</span>
+                    <span class="discount">${data.discountPrice}₺</span>
+                `;
+        } else {
+            price.innerHTML = `<span>${data.price}₺</span>`;
+        }
+
+        const stars = document.createElement("div");
+        stars.className = "stars";
+        for (let i = 0; i < 5; i++) {
+            const star = document.createElement("span");
+            star.innerHTML = "&#9733;";
+            star.style.color = i < data.ratio ? "gold" : "#ccc";
+            stars.appendChild(star);
+        }
+
+        const expired = document.createElement("p");
+        if (data.isExpired) {
+            expired.textContent = "TÜKENDİ";
+            expired.className = "expired";
+        }
+
+        // Ürün Seçimi: Sayaç ve Sepete Ekle Butonu
+        const quantityContainer = document.createElement("div");
+        quantityContainer.className = "product-quantity-container";
+
+        const kgText = document.createElement("span");
+        kgText.className = "kg-text";
+        kgText.textContent = "Kg:";
+
+        const quantityInput = document.createElement("input");
+        quantityInput.type = "number";
+        quantityInput.value = 1;
+        quantityInput.min = 1;
+        quantityInput.max = 100;
+        quantityInput.addEventListener("input", function () {
+            if (quantityInput.value < 1) quantityInput.value = 1;
+        });
+
+        const addToCartBtn = document.createElement("button");
+        addToCartBtn.className = "add-to-cart-btn";
+        addToCartBtn.textContent = "Sepete Ekle";
+
+        // Yorumlar bölümü
+        const comments = document.createElement("div");
+        comments.className = "comments-section";
+        comments.innerHTML = `
+                <h3>Yorumlar</h3>
+                <div class="comment-box-container">
+                    <!-- Yorum Kartları -->
+                    <div class="comment-card">
+                        <div class="username">Ahmet Yılmaz</div>
+                        <div class="date">2025-05-04</div>
+                        <div class="rating">
+                            <span>&#9733;</span>
+                            <span>&#9733;</span>
+                            <span>&#9733;</span>
+                            <span>&#9733;</span>
+                            <span>&#9734;</span>
+                        </div>
+                        <div class="comment-text">Harika bir ürün! Gerçekten çok taze ve lezzetli.</div>
+                    </div>
+
+                    <div class="comment-card">
+                        <div class="username">Mehmet Can</div>
+                        <div class="date">2025-04-28</div>
+                        <div class="rating">
+                            <span>&#9733;</span>
+                            <span>&#9733;</span>
+                            <span>&#9733;</span>
+                            <span>&#9734;</span>
+                            <span>&#9734;</span>
+                        </div>
+                        <div class="comment-text">Çok beğendim, fiyatı da oldukça uygun.</div>
+                    </div>
+                </div>
+            `;
+
+        // Yorum ekleme input alanı
+        const commentInput = document.createElement("textarea");
+        commentInput.className = "comment-input";
+        commentInput.placeholder = "Yorumunuzu buraya yazın...";
+
+        const submitCommentBtn = document.createElement("button");
+        submitCommentBtn.className = "submit-comment-btn";
+        submitCommentBtn.textContent = "Yorum Yap";
+
+        submitCommentBtn.onclick = function () {
+            const newComment = commentInput.value.trim();
+            if (newComment) {
+                const newCommentCard = document.createElement("div");
+                newCommentCard.className = "comment-card";
+
+                const newUsername = document.createElement("div");
+                newUsername.className = "username";
+                newUsername.textContent = "Kullanıcı Adı";
+
+                const newDate = document.createElement("div");
+                newDate.className = "date";
+                newDate.textContent = new Date().toISOString().split('T')[0]; // Bugünün tarihi
+
+                const newRating = document.createElement("div");
+                newRating.className = "rating";
+                newRating.innerHTML = "&#9733; &#9733; &#9733; &#9733; &#9734;"; // Örnek 4 yıldız
+
+                const newCommentText = document.createElement("div");
+                newCommentText.className = "comment-text";
+                newCommentText.textContent = newComment;
+
+                newCommentCard.appendChild(newUsername);
+                newCommentCard.appendChild(newDate);
+                newCommentCard.appendChild(newRating);
+                newCommentCard.appendChild(newCommentText);
+
+                comments.querySelector(".comment-box-container").appendChild(newCommentCard);
+                commentInput.value = ""; // Yorum gönderildikten sonra inputu temizle
+            }
+        };
+
+        const moreCommentsBtn = document.createElement("button");
+        moreCommentsBtn.className = "more-comments-btn";
+        moreCommentsBtn.textContent = "Daha Fazlasını Gör";
+        moreCommentsBtn.onclick = function () {
+            alert("Daha fazla yorum yükle"); // Bu kısmı API ile dinamik hale getirebilirsin.
+        };
+
+        // Sayfaya ekle
+        container.appendChild(img);
+        container.appendChild(title);
+        container.appendChild(desc);
+        container.appendChild(category);
+        container.appendChild(price);
+        container.appendChild(stars);
+        if (data.isExpired) container.appendChild(expired);
+        container.appendChild(quantityContainer);
+        quantityContainer.appendChild(kgText);
+        quantityContainer.appendChild(quantityInput);
+        quantityContainer.appendChild(addToCartBtn);
+        container.appendChild(comments);
+        container.appendChild(commentInput);
+        container.appendChild(submitCommentBtn);
+        container.appendChild(moreCommentsBtn);
+
+    }).catch(err => {
+        console.log(err);
+        document.getElementById("product-detail").innerHTML = "<p class='text-danger'>Hata oluştu.</p>";
+    });
+</script>
