@@ -82,17 +82,8 @@
             console.error(err);
         });
     };
-
     const createPagination = (totalPages) => {
-        pagit.innerHTML = ""; // Sayfalama çubuğunu temizle
-
-        // Sol ok
-        const prev = document.createElement("a");
-        prev.className = "rounded px-2";
-        prev.textContent = "←";
-        pagit.appendChild(prev);
-
-        // Sayfa numaraları
+        pagit.innerHTML = "";
         for (let i = 1; i <= totalPages; i++) {
             const pageBtn = document.createElement("a");
             pageBtn.className = "rounded px-3";
@@ -111,13 +102,9 @@
 
             pagit.appendChild(pageBtn);
         }
+    }
 
-        // Sağ ok
-        const next = document.createElement("a");
-        next.className = "rounded px-2";
-        next.textContent = "→";
-        pagit.appendChild(next);
-    };
+
 
     // Sayfa yüklenince çalıştır
     window.addEventListener("load", () => {
@@ -135,4 +122,5 @@
             console.error(err);
         });
     });
+
 </script>
