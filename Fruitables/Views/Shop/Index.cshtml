@@ -260,15 +260,7 @@
         }
     }
 
-    function toSlug(name) {
-        return name
-            .toLowerCase()
-            .replace(/[çğıöşü]/g, c => ({
-                'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u'
-            }[c]))
-            .replace(/[^a-z0-9\s-]/g, '')  // özel karakterleri kaldır
-            .replace(/\s+/g, '-');         // boşlukları tire yap
-    }
+
 
     function loadProducts(pageNumber) {
         axios.get("https://localhost:7005/api/products", {
@@ -333,7 +325,7 @@
                 // 👇 Kartı tıklanabilir yap – tıklanınca yönlendir
                 fruitContainer.style.cursor = "pointer";
                 fruitContainer.addEventListener("click", () => {
-                    const slug = toSlug(product.name);
+                    const slug = product.name;
                     window.location.href = `/shop/${slug}`;
                 });
 
